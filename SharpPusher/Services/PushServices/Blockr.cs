@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace SharpPusher.Services.PushServices
 {
-    public class Blockr : Api
+    public sealed class Blockr : Api
     {
         public override string ApiName
         {
@@ -13,8 +13,8 @@ namespace SharpPusher.Services.PushServices
 
         public override async Task<Response<string>> PushTx(string txHex)
         {
-            Response<string> resp = await base.PushTx(txHex, "hex", "http://btc.blockr.io/api/v1/tx/push");
-            if (resp.HasErrors)
+            Response<string> resp = await PushTx(txHex, "hex", "http://btc.blockr.io/api/v1/tx/push");
+            if (resp.Errors.Any())
             {
                 return resp;
             }
@@ -26,7 +26,7 @@ namespace SharpPusher.Services.PushServices
             }
             else
             {
-                resp.AddError(jResult["data"].ToString());
+                resp.Errors.Add(jResult["data"].ToString());
             }
 
             return resp;

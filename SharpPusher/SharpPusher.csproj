@@ -45,10 +45,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -62,6 +60,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Services\Api.cs" />
+    <Compile Include="Services\ErrorCollection.cs" />
     <Compile Include="Services\PushServices\BlockchainInfo.cs" />
     <Compile Include="Services\PushServices\BlockCypher.cs" />
     <Compile Include="Services\PushServices\BlockExplorer.cs" />

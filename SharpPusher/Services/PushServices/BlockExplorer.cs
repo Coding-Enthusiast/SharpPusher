@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SharpPusher.Services.PushServices
 {
-    public class BlockExplorer : Api
+    public sealed class BlockExplorer : Api
     {
         public override string ApiName
         {
@@ -38,13 +38,13 @@ namespace SharpPusher.Services.PushServices
                     }
                     else
                     {
-                        resp.AddError(result);
+                        resp.Errors.Add(result);
                     }
                 }
                 catch (Exception ex)
                 {
                     string errMsg = (ex.InnerException == null) ? ex.Message : ex.Message + " " + ex.InnerException;
-                    resp.AddError(errMsg);
+                    resp.Errors.Add(errMsg);
                 }
             }
 

@@ -3,7 +3,7 @@
 namespace MVVMLib
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class DependsOnPropertyAttribute : Attribute
+    public sealed class DependsOnPropertyAttribute : Attribute
     {
         /// <summary>
         /// Instantiates an instance with only 1 depending properties.

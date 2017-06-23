@@ -28,7 +28,7 @@ namespace SharpPusher.Services
         /// <param name="jKey">The JSON key used for making the HttpContent in JSON format.</param>
         /// <param name="url">Api url to use.</param>
         /// <returns>Result of broadcasting.</returns>
-        protected async Task<Response<string>> PushTx(string txHex, string jKey, string url)
+        protected static async Task<Response<string>> PushTx(string txHex, string jKey, string url)
         {
             Response<string> resp = new Response<string>();
 
@@ -36,8 +36,10 @@ namespace SharpPusher.Services
             {
                 try
                 {
-                    JObject tx = new JObject();
-                    tx.Add(jKey, txHex);
+                    JObject tx = new JObject() 
+                    {
+                        {jKey, txHex}
+                    };
 
                     HttpResponseMessage httpResp = await client.PostAsync(url, new StringContent(tx.ToString()));
                     resp.Result = await httpResp.Content.ReadAsStringAsync();
@@ -45,7 +47,7 @@ namespace SharpPusher.Services
                 catch (Exception ex)
                 {
                     string errMsg = (ex.InnerException == null) ? ex.Message : ex.Message + " " + ex.InnerException;
-                    resp.AddError(errMsg);
+                    resp.Errors.Add(errMsg);
                 }
             }
 

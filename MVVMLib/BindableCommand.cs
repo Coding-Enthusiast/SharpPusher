@@ -16,8 +16,8 @@ namespace MVVMLib
         }
 
 
-        private Action methodToExecute;
-        private Func<bool> canExecuteMethod;
+        private readonly Action methodToExecute;
+        private readonly Func<bool> canExecuteMethod;
 
 
         public void RaiseCanExecuteChanged()
@@ -34,11 +34,7 @@ namespace MVVMLib
             {
                 return canExecuteMethod();
             }
-            if (methodToExecute != null)
-            {
-                return true;
-            }
-            return false;
+            return methodToExecute != null;
         }
 
         public event EventHandler CanExecuteChanged;
@@ -70,8 +66,8 @@ namespace MVVMLib
         }
 
 
-        private Action<T> methodToExecute;
-        private Func<T, bool> canExecuteMethod;
+        private readonly Action<T> methodToExecute;
+        private readonly Func<T, bool> canExecuteMethod;
 
 
         public void RaiseCanExecuteChanged()
@@ -88,11 +84,7 @@ namespace MVVMLib
             {
                 return canExecuteMethod((T)parameter);
             }
-            if (methodToExecute != null)
-            {
-                return true;
-            }
-            return false;
+            return methodToExecute != null;
         }
 
         public event EventHandler CanExecuteChanged;

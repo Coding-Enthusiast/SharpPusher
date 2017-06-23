@@ -43,7 +43,7 @@ namespace MVVMLib
         /// <summary>
         /// Dictonary of properties which have a dependant property.
         /// </summary>
-        protected Dictionary<string, List<string>> PropertyDependencyMap;
+        protected readonly Dictionary<string, List<string>> PropertyDependencyMap;
 
 
 

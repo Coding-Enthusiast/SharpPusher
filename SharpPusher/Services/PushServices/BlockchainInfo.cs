@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SharpPusher.Services.PushServices
 {
-    public class BlockchainInfo : Api
+    public sealed class BlockchainInfo : Api
     {
         public override string ApiName
         {
@@ -38,7 +38,7 @@ namespace SharpPusher.Services.PushServices
                         if (sResult != null && sResult.StartsWith("{\"error\":"))
                         {
                             JObject jObject = JObject.Parse(sResult);
-                            resp.AddError(jObject["error"].ToString());
+                            resp.Errors.Add(jObject["error"].ToString());
                         }
                         else
                         {
@@ -47,13 +47,13 @@ namespace SharpPusher.Services.PushServices
                     }
                     else
                     {
-                        resp.AddError(sResult);
+                        resp.Errors.Add(sResult);
                     }
                 }
                 catch (Exception ex)
                 {
                     string errMsg = (ex.InnerException == null) ? ex.Message : ex.Message + " " + ex.InnerException;
-                    resp.AddError(errMsg);
+                    resp.Errors.Add(errMsg);
                 }
             }
 

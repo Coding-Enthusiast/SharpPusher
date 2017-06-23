@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace SharpPusher.Services.PushServices
 {
-    public class BlockCypher : Api
+    public sealed class BlockCypher : Api
     {
         public override string ApiName
         {
@@ -13,8 +13,8 @@ namespace SharpPusher.Services.PushServices
 
         public override async Task<Response<string>> PushTx(string txHex)
         {
-            Response<string> resp = await base.PushTx(txHex, "tx", "https://api.blockcypher.com/v1/bcy/test/txs/push");
-            if (resp.HasErrors)
+            Response<string> resp = await PushTx(txHex, "tx", "https://api.blockcypher.com/v1/bcy/test/txs/push");
+            if (resp.Errors.Any())
             {
                 return resp;
             }
@@ -22,7 +22,7 @@ namespace SharpPusher.Services.PushServices
             JObject jResult = JObject.Parse(resp.Result);
             if (jResult["error"] != null)
             {
-                resp.AddError(jResult["error"].ToString());
+                resp.Errors.Add(jResult["error"].ToString());
             }
             else
             {

@@ -11,12 +11,14 @@ namespace SharpPusher
     {
         public MainWindowViewModel()
         {
-            ApiList = new ObservableCollection<Api>();
-            ApiList.Add(new Blockr());
-            ApiList.Add(new Smartbit());
-            ApiList.Add(new BlockCypher());
-            ApiList.Add(new BlockExplorer());
-            ApiList.Add(new BlockchainInfo());
+            ApiList = new ObservableCollection<Api>()
+            {
+                new Blockr(),
+                new Smartbit(),
+                new BlockCypher(),
+                new BlockExplorer(),
+                new BlockchainInfo()
+            };
 
             BroadcastTxCommand = new BindableCommand(BroadcastTx, CanBroadcast);
 
@@ -86,9 +88,9 @@ namespace SharpPusher
             Status = "Broadcasting Transaction...";
 
             Response<string> resp = await SelectedApi.PushTx(RawTx);
-            if (resp.HasErrors)
+            if (resp.Errors.Any())
             {
-                Errors = resp.GetErrors();
+                Errors = resp.Errors.GetErrors();
                 Status = "Finished with error.";
             }
             else

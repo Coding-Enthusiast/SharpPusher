@@ -28,7 +28,7 @@ namespace MVVMLib
             {
                 if (SetField(ref errors, value))
                 {
-                    IsErrorMsgVisible = (value != string.Empty);
+                    IsErrorMsgVisible = !string.IsNullOrEmpty(value);
                 }
             }
         }

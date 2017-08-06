@@ -63,6 +63,7 @@
     <Compile Include="Services\ErrorCollection.cs" />
     <Compile Include="Services\PushServices\BlockchainInfo.cs" />
     <Compile Include="Services\PushServices\BlockCypher.cs" />
+    <Compile Include="Services\PushServices\BlockDozer.cs" />
     <Compile Include="Services\PushServices\BlockExplorer.cs" />
     <Compile Include="Services\PushServices\Blockr.cs" />
     <Compile Include="Services\PushServices\Smartbit.cs" />

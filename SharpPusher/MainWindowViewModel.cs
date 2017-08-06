@@ -11,14 +11,8 @@ namespace SharpPusher
     {
         public MainWindowViewModel()
         {
-            ApiList = new ObservableCollection<Api>()
-            {
-                new Blockr(),
-                new Smartbit(),
-                new BlockCypher(),
-                new BlockExplorer(),
-                new BlockchainInfo()
-            };
+            NetworkList = new ObservableCollection<Networks>((Networks[])Enum.GetValues(typeof(Networks)));
+            SetApiList();
 
             BroadcastTxCommand = new BindableCommand(BroadcastTx, CanBroadcast);
 
@@ -48,7 +42,56 @@ namespace SharpPusher
         }
 
 
-        public ObservableCollection<Api> ApiList { get; set; }
+        public enum Networks
+        {
+            Bitcoin,
+            BitcoinCash
+        }
+
+        public ObservableCollection<Networks> NetworkList { get; set; }
+
+        private Networks selectedNetwork;
+        public Networks SelectedNetwork
+        {
+            get { return selectedNetwork; }
+            set
+            {
+                if (SetField(ref selectedNetwork, value))
+                {
+                    SetApiList();
+                }
+            }
+        }
+        private void SetApiList()
+        {
+            switch (SelectedNetwork)
+            {
+                case Networks.Bitcoin:
+                    ApiList = new ObservableCollection<Api>()
+                    {
+                        new Blockr(),
+                        new Smartbit(),
+                        new BlockCypher(),
+                        new BlockExplorer(),
+                        //new BlockchainInfo() /*I can't get BLockchain.info API to work, and the code is exact copy of their repository! So I'll just remove it for now (only from this list) until I can fix it.*/
+                    };
+                    break;
+                case Networks.BitcoinCash:
+                    ApiList = new ObservableCollection<Api>()
+                    {
+                        new BlockDozer(),
+                    };
+                    break;
+            }
+        }
+
+
+        private ObservableCollection<Api> apiList;
+        public ObservableCollection<Api> ApiList
+        {
+            get { return apiList; }
+            set { SetField(ref apiList, value); }
+        }
 
 
         private Api selectedApi;

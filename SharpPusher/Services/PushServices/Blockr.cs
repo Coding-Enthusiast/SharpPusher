@@ -26,7 +26,8 @@ namespace SharpPusher.Services.PushServices
             }
             else
             {
-                resp.Errors.Add(jResult["data"].ToString());
+                string er = (jResult["message"] == null) ? jResult["data"].ToString() : jResult["data"].ToString() + " " + jResult["message"].ToString();
+                resp.Errors.Add(er);
             }
 
             return resp;

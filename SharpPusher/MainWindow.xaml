@@ -36,14 +36,18 @@
         </StatusBar>
 
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="0*"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2.5*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox Text="{Binding RawTx, UpdateSourceTrigger=PropertyChanged}" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Margin="5" Grid.Column="0"/>
+            <TextBox Text="{Binding RawTx, UpdateSourceTrigger=PropertyChanged}" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Margin="5,5,5,4.802" Grid.Column="0" TextChanged="TextBox_TextChanged"/>
 
-            <Grid Grid.Column="1" Margin="5">
+            <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -56,7 +60,7 @@
                     <ListBox ItemsSource="{Binding NetworkList}" SelectedItem="{Binding SelectedNetwork}" Style="{StaticResource RadioButtonListBoxStyle}"/>
                 </GroupBox>
 
-                <ListBox ItemsSource="{Binding ApiList}" SelectedItem="{Binding SelectedApi}" Margin="0,5,0,0" Grid.Row="1">
+                <ListBox ItemsSource="{Binding ApiList}" SelectedItem="{Binding SelectedApi}" Margin="0,5,0,0" Grid.Row="1" Style="{StaticResource RadioButtonListBoxStyle}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding ApiName}"/>

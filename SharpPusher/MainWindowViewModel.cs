@@ -44,8 +44,8 @@ namespace SharpPusher
 
         public enum Networks
         {
-            Bitcoin,
-            BitcoinCash
+            Mainnet,
+            Testnet
         }
 
         public ObservableCollection<Networks> NetworkList { get; set; }
@@ -66,20 +66,23 @@ namespace SharpPusher
         {
             switch (SelectedNetwork)
             {
-                case Networks.Bitcoin:
+                case Networks.Mainnet:
                     ApiList = new ObservableCollection<Api>()
                     {
-                        new Blockr(),
-                        new Smartbit(),
-                        new BlockCypher(),
-                        new BlockExplorer(),
+                        new Insight(),
+                        new BlockBook(),
+                        //new Blockr(),
+                        //new Smartbit(),
+                        //new BlockCypher(),
+                        //new BlockExplorer(),
                         //new BlockchainInfo() /*I can't get BLockchain.info API to work, and the code is exact copy of their repository! So I'll just remove it for now (only from this list) until I can fix it.*/
                     };
                     break;
-                case Networks.BitcoinCash:
+                case Networks.Testnet:
                     ApiList = new ObservableCollection<Api>()
                     {
-                        new BlockDozer(),
+                        new Insight_Test(),
+                        //new BlockDozer(),
                     };
                     break;
             }
@@ -94,7 +97,7 @@ namespace SharpPusher
         }
 
 
-        private Api selectedApi;
+        private Api selectedApi = new BlockBook();
         public Api SelectedApi
         {
             get { return selectedApi; }

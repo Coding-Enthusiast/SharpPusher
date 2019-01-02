@@ -37,6 +37,12 @@
     <ApplicationIcon>PusherIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MaterialDesignColors, Version=1.0.0.14576, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.1.1\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.5.0.1205, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.5.0.1205\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -61,6 +67,9 @@
     </ApplicationDefinition>
     <Compile Include="Services\Api.cs" />
     <Compile Include="Services\ErrorCollection.cs" />
+    <Compile Include="Services\PushServices\Blockbook.cs" />
+    <Compile Include="Services\PushServices\Insight_Test.cs" />
+    <Compile Include="Services\PushServices\Insight.cs" />
     <Compile Include="Services\PushServices\BlockchainInfo.cs" />
     <Compile Include="Services\PushServices\BlockCypher.cs" />
     <Compile Include="Services\PushServices\BlockDozer.cs" />

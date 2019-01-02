@@ -3,6 +3,7 @@ using SharpPusher.Services;
 using SharpPusher.Services.PushServices;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reflection;
 
 namespace SharpPusher
@@ -50,7 +51,7 @@ namespace SharpPusher
 
         public ObservableCollection<Networks> NetworkList { get; set; }
 
-        private Networks selectedNetwork;
+        private Networks selectedNetwork = Networks.Mainnet;
         public Networks SelectedNetwork
         {
             get { return selectedNetwork; }
@@ -86,6 +87,13 @@ namespace SharpPusher
                     };
                     break;
             }
+            try{
+                SelectedApi = ApiList.FirstOrDefault();
+            }
+            catch{
+
+            }
+            
         }
 
 
@@ -97,7 +105,7 @@ namespace SharpPusher
         }
 
 
-        private Api selectedApi = new BlockBook();
+        private Api selectedApi;
         public Api SelectedApi
         {
             get { return selectedApi; }

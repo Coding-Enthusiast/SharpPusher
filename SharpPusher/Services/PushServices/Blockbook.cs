@@ -10,8 +10,6 @@ namespace SharpPusher.Services.PushServices
 {
     public sealed class BlockBook : Api
     {
-        public override string ApiName => "BlockBook";
-
         public override string ToString() {
             return "BlockBook";
         }
@@ -24,20 +22,20 @@ namespace SharpPusher.Services.PushServices
             {
                 try
                 {
-                    string url = "https://blockbook.groestlcoin.org/api/sendtx";
+                    string url = "https://blockbook.groestlcoin.org/api/sendtx/" + txHex;
 
-                    Response<string> respnu = await PushTx(txHex, "hex", url);
+                    //Response<string> respnu = await PushTx(txHex, "hex", url);
 
-                    var res = respnu.Result;
+                    //var res = respnu.Result;
 
-                    string json = JsonConvert.SerializeObject(txHex);
+                    //string json = JsonConvert.SerializeObject(txHex);
 
                     var content = new FormUrlEncodedContent(new[]
                     {
                         new KeyValuePair<string, string>("hex", txHex)
                     });
 
-                    HttpResponseMessage httpResp = await client.PostAsync(url, content);
+                    HttpResponseMessage httpResp = await client.GetAsync(url);
 
                     string result = await httpResp.Content.ReadAsStringAsync();
                     if (httpResp.IsSuccessStatusCode)

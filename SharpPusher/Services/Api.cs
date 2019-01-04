@@ -8,18 +8,16 @@ namespace SharpPusher.Services
     public abstract class Api
     {
         /// <summary>
-        /// Name of the Api service. Used for showing the name in GUI.
-        /// </summary>
-        public abstract string ApiName { get; }
-
-
-        /// <summary>
         /// Broadcasts a signed raw transactions in hex format.
         /// </summary>
         /// <param name="txHex">Signed raw transaction in hex format</param>
         /// <returns>Result of broadcasting.</returns>
         public abstract Task<Response<string>> PushTx(string txHex);
 
+        /// <summary>
+        /// Chainz.CryptoId API Key https://chainz.cryptoid.info/api.key.dws
+        /// </summary>
+        public string ChainzKey = "";
 
         /// <summary>
         /// Broadcasts a signed raw transactions in hex format.

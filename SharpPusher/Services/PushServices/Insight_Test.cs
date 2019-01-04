@@ -10,8 +10,6 @@ namespace SharpPusher.Services.PushServices
 {
     public sealed class Insight_Test : Api
     {
-        public override string ApiName => "Groestlsight Testnet";
-
         public override string ToString()
         {
             return "Groestlsight Testnet";

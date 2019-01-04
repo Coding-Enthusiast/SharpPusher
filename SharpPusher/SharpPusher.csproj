@@ -67,15 +67,12 @@
     </ApplicationDefinition>
     <Compile Include="Services\Api.cs" />
     <Compile Include="Services\ErrorCollection.cs" />
+    <Compile Include="Services\PushServices\Blockbook_Test.cs" />
     <Compile Include="Services\PushServices\Blockbook.cs" />
+    <Compile Include="Services\PushServices\Chainz _Test.cs" />
+    <Compile Include="Services\PushServices\Chainz.cs" />
     <Compile Include="Services\PushServices\Insight_Test.cs" />
     <Compile Include="Services\PushServices\Insight.cs" />
-    <Compile Include="Services\PushServices\BlockchainInfo.cs" />
-    <Compile Include="Services\PushServices\BlockCypher.cs" />
-    <Compile Include="Services\PushServices\BlockDozer.cs" />
-    <Compile Include="Services\PushServices\BlockExplorer.cs" />
-    <Compile Include="Services\PushServices\Blockr.cs" />
-    <Compile Include="Services\PushServices\Smartbit.cs" />
     <Compile Include="Services\Response.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -1,5 +1,6 @@
 # Groestlcoin Broadcaster
 ![ScreenShot](IMG/GRS_Pusher_Logo.png)
+
 A simple GUI to broadcast Groestlcoin transactions to the network.
 
 **Packages needed:** Newtonsoft.Json, MaterialDesignThemes, MaterialDesignColors
@@ -24,3 +25,5 @@ A simple GUI to broadcast Groestlcoin transactions to the network.
 
 Then review the code and leave your feedback.
 
+**Wanna donate?** 
+Press the about button within the app for information on how to donate GRS.

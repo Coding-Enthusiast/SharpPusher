@@ -2,7 +2,7 @@
 # SharpPusher
 A simple GUI to broadcast Groestlcoin transactions to the network.
 
-**Packages needed:** Newtonsoft.Json
+**Packages needed:** Newtonsoft.Json, MaterialDesignThemes, MaterialDesignColors
 
 ![ScreenShot](IMG/Screenshot.png)
 

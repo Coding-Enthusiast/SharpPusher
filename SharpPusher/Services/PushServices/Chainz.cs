@@ -18,6 +18,8 @@ namespace SharpPusher.Services.PushServices {
             Response<ResultWrapper> resp = new Response<ResultWrapper>();
             var resultWrapper = new ResultWrapper();
             resultWrapper.TxnId = txHex;
+            resultWrapper.Network = MainWindowViewModel.Networks.Mainnet;
+            resultWrapper.Provider = ToString();
 
             try {
                 using (HttpClient client = new HttpClient()) {

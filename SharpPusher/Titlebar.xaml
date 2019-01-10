@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="SharpPusher.Titlebar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SharpPusher"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" BorderThickness="0" BorderBrush="Transparent"
+             TextElement.FontWeight="Regular" TextElement.FontSize="13" TextOptions.TextFormattingMode="Ideal" TextOptions.TextRenderingMode="Auto" d:DesignHeight="25" d:DesignWidth="500" Height="Auto">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <DockPanel>
+        <Border Background="Transparent" CornerRadius="5" DockPanel.Dock="Top" Height="30" x:Name="TitleBar" MouseLeftButtonDown="TitleBar_OnMouseLeftButtonDown">
+            <UniformGrid Columns="3" VerticalAlignment="Top">
+                <Button  FontFamily="Impact" FontWeight="ExtraBold" MinWidth="30" Background="Transparent" Padding="0" BorderThickness="0" Click="Button_Click" Name="uxMinimiseBtn" Style="{DynamicResource MaterialDesignFlatButton}">
+                    <Button.Content>
+                        <materialDesign:PackIcon Kind="WindowMinimize" Foreground="{DynamicResource MaterialDesignBody}" Height="15" Width="15" Margin="0" VerticalAlignment="Center">
+                            <materialDesign:PackIcon.Effect>
+                                <DropShadowEffect Color="Black" ShadowDepth="2" BlurRadius="2"></DropShadowEffect>
+                            </materialDesign:PackIcon.Effect>
+                        </materialDesign:PackIcon>
+                    </Button.Content>
+                </Button>
+                <Button Name="uxAboutBtn" Background="Transparent" MinWidth="30" BorderThickness="0" Padding="0" Style="{DynamicResource MaterialDesignFlatButton}" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                    <Button.Content>
+                    <materialDesign:PackIcon Kind="HelpCircle" Foreground="{DynamicResource MaterialDesignBody}" Height="15" Width="15" Margin="0">
+                        <materialDesign:PackIcon.Effect>
+                            <DropShadowEffect Color="Black" ShadowDepth="2" BlurRadius="2"></DropShadowEffect>
+                        </materialDesign:PackIcon.Effect>
+                    </materialDesign:PackIcon>
+                    </Button.Content>
+                    <Button.CommandParameter>
+                        <Grid Background="{StaticResource BackgroundBrush}" Margin="0">
+                            <StackPanel>
+                                <Rectangle Fill="{StaticResource Logo}" Width="64" Height="64" HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" Margin="5" />
+                                <TextBlock FontFamily="Abadi MT Condensed" FontWeight="UltraBlack" Foreground="{StaticResource ForegroundBrush}" HorizontalAlignment="Center" FontSize="17" Padding="0" Margin="0 0 0 -2">GROESTLCOIN</TextBlock>
+                                <TextBlock FontFamily="Abadi MT Condensed" FontWeight="Bold"
+                                           Foreground="{StaticResource SecondaryForegroundBrush}" HorizontalAlignment="Center"
+                                           FontSize="15" Padding="0" Margin="0" Text="BROADCASTER" />
+                                <Separator/>
+                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Developer - Yokomoko" Foreground="{StaticResource ForegroundGradient}" Margin="0,0,0,0" FontSize="15" FontWeight="Bold" TextAlignment="Center"/>
+                                <TextBlock FontFamily="Verdana" HorizontalAlignment="Center"  TextWrapping="Wrap" VerticalAlignment="Top" FontSize="13" Foreground="{StaticResource ForegroundGradient}">
+            <Hyperlink NavigateUri="https://www.groestlcoin.org" RequestNavigate="Hyperlink_RequestNavigate" Foreground="{StaticResource ForegroundGradient}">www.groestlcoin.org</Hyperlink>
+                                </TextBlock>
+                                <TextBlock FontFamily="Verdana" HorizontalAlignment="Center"  TextWrapping="Wrap" VerticalAlignment="Top" FontSize="13">
+            <Hyperlink NavigateUri="https://github.com/Groestlcoin/Groestlcoin-EasyWatcher" RequestNavigate="Hyperlink_RequestNavigate" Foreground="{StaticResource ForegroundGradient}">Github</Hyperlink>
+                                </TextBlock>
+                                <Separator/>
+
+                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="13">
+            <Hyperlink x:Name="DonationHyperLink" Foreground="{StaticResource ForegroundGradient}" NavigateUri="https://www.grspay.com/apps/25AY7EqNBgNpgB6nM9zaN3x7UejA/pos" RequestNavigate="Hyperlink_RequestNavigate">Donate via GRSPay</Hyperlink>
+                                </TextBlock>
+                                <TextBox x:Name="txtDonate" HorizontalAlignment="Center" Height="25" Foreground="{StaticResource ForegroundGradient}" TextWrapping="Wrap" Width="292" IsReadOnly="True" TextAlignment="Center" Text="Donate"/>
+                                <Button IsCancel="True" Margin="0 10 0 10" Background="{StaticResource ForegroundGradient}" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" HorizontalAlignment="Center">
+                                    Nice Work!
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Button.CommandParameter>
+                </Button>
+                <Button Grid.Column="2" Foreground="{StaticResource ForegroundGradient}" Name="UxCloseBtn" MinWidth="30" Background="Transparent" Padding="0" BorderThickness="0" VerticalAlignment="Center" Click="UxCloseBtn_OnClick" Style="{DynamicResource MaterialDesignFlatButton}">
+                    <Button.Content>
+                        <materialDesign:PackIcon Kind="WindowClose"  Foreground="{DynamicResource MaterialDesignBody}" Height="15" Width="15" Margin="0" Padding="0" VerticalAlignment="Center">
+                            <materialDesign:PackIcon.Effect>
+                                <DropShadowEffect Color="Black" ShadowDepth="2" BlurRadius="2"></DropShadowEffect>
+                            </materialDesign:PackIcon.Effect>
+                        </materialDesign:PackIcon>
+                    </Button.Content>
+                </Button>
+            </UniformGrid>
+        </Border>
+    </DockPanel>
+</UserControl>

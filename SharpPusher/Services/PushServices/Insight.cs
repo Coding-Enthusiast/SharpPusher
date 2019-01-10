@@ -15,6 +15,9 @@ namespace SharpPusher.Services.PushServices {
         public override async Task<Response<ResultWrapper>> PushTx(string txHex) {
             Response<ResultWrapper> resp = new Response<ResultWrapper>();
             var resultWrapper = new ResultWrapper();
+            resultWrapper.TxnId = txHex;
+            resultWrapper.Network = MainWindowViewModel.Networks.Mainnet;
+            resultWrapper.Provider = ToString();
 
             using (HttpClient client = new HttpClient()) {
                 try {

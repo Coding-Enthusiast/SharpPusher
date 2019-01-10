@@ -29,5 +29,15 @@ namespace SharpPusher
         {
 
         }
+
+        private void UIElement_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+            try {
+                GetWindow(this)?.DragMove();
+            }
+            catch {
+                //No move! NO!
+            }
+            
+        }
     }
 }

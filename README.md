@@ -1,5 +1,5 @@
+# Groestlcoin Broadcaster
 ![ScreenShot](IMG/GRS_Pusher_Logo.png)
-# SharpPusher
 A simple GUI to broadcast Groestlcoin transactions to the network.
 
 **Packages needed:** Newtonsoft.Json, MaterialDesignThemes, MaterialDesignColors

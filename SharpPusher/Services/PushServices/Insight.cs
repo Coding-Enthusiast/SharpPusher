@@ -37,6 +37,7 @@ namespace SharpPusher.Services.PushServices {
                     }
                     else {
                         resp.Errors.Add(result);
+                        resultWrapper.Output = "Fail";
                     }
                 }
                 catch (Exception ex) {

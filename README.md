@@ -4,7 +4,7 @@ A simple GUI to broadcast Groestlcoin transactions to the network.
 
 **Packages needed:** Newtonsoft.Json
 
-![ScreenShot](https://i.imgur.com/WgTTgwN.jpg)
+![ScreenShot](IMG/Screenshot.png)
 
 
 ## Features

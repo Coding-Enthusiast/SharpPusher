@@ -83,6 +83,13 @@ namespace SharpPusher {
             set { SetField(ref apiList, value); }
         }
 
+        private ObservableCollection<ResultWrapper> resultList = new ObservableCollection<ResultWrapper>();
+
+        public ObservableCollection<ResultWrapper> ResultList {
+            get { return resultList; }
+            set { SetField(ref resultList, value); }
+        }
+
         private Api selectedApi;
 
         public Api SelectedApi {
@@ -112,24 +119,21 @@ namespace SharpPusher {
             Errors = string.Empty;
             Status = "Broadcasting Transaction...";
 
-            Response<string> resp = await SelectedApi.PushTx(RawTx);
+            Response<ResultWrapper> resp = await SelectedApi.PushTx(RawTx);
+
+            ResultList.Add(resp.Result);
+            
             if (resp.Errors.Any()) {
                 Errors = resp.Errors.GetErrors();
-                Status = "Finished with error.";
             }
-            else {
-                Status = resp.Result;
-            }
+            Status = resp.Result.Result;
             IsSending = false;
         }
 
         private bool CanBroadcast() {
-            if (!string.IsNullOrWhiteSpace(RawTx) && !IsSending && selectedApi != null) {
-                return true;
-            }
-            else {
-                return false;
-            }
+            return !string.IsNullOrWhiteSpace(RawTx) && !IsSending && selectedApi != null;
         }
+
+
     }
 }

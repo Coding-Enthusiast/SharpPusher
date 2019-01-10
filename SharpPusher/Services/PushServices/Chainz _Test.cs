@@ -14,8 +14,10 @@ namespace SharpPusher.Services.PushServices {
     public sealed class Chainz_Test : Api {
         public override string ToString() => "Chainz Testnet";
 
-        public override async Task<Response<string>> PushTx(string txHex) {
-            Response<string> resp = new Response<string>();
+        public override async Task<Response<ResultWrapper>> PushTx(string txHex) {
+            Response<ResultWrapper> resp = new Response<ResultWrapper>();
+            var resultWrapper = new ResultWrapper();
+            resultWrapper.TxnId = txHex;
 
             try {
                 using (HttpClient client = new HttpClient()) {
@@ -29,21 +31,29 @@ namespace SharpPusher.Services.PushServices {
                     if (result.IsSuccessStatusCode) {
                         if (sResult != null && sResult.StartsWith("{\"error\":")) {
                             JObject jObject = JObject.Parse(sResult);
+                            resultWrapper.Result = "Fail";
+                            resultWrapper.Output = jObject["error"].ToString();
                             resp.Errors.Add(jObject["error"].ToString());
                         }
                         else {
-                            resp.Result = sResult;
+                            resultWrapper.Result = "Success";
+                            resultWrapper.Output = sResult;
                         }
                     }
                     else {
+                        resultWrapper.Result = "Fail";
+                        resultWrapper.Output = sResult;
                         resp.Errors.Add(sResult);
                     }
                 }
             }
             catch (Exception ex) {
                 string errMsg = (ex.InnerException == null) ? ex.Message : ex.Message + " " + ex.InnerException;
+                resultWrapper.Output = (ex.InnerException == null) ? ex.Message : ex.Message + " " + ex.InnerException;
+                resultWrapper.Result = "Fail";
                 resp.Errors.Add(errMsg);
             }
+            resp.Result = resultWrapper;
             return resp;
         }
     }

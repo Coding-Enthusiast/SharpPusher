@@ -12,12 +12,13 @@ namespace SharpPusher.Services
         /// </summary>
         /// <param name="txHex">Signed raw transaction in hex format</param>
         /// <returns>Result of broadcasting.</returns>
-        public abstract Task<Response<string>> PushTx(string txHex);
+        public abstract Task<Response<ResultWrapper>> PushTx(string txHex);
+
 
         /// <summary>
         /// Chainz.CryptoId API Key https://chainz.cryptoid.info/api.key.dws
         /// </summary>
-        public string ChainzKey = "";
+        public string ChainzKey = "632ba1ffd292";
 
         /// <summary>
         /// Broadcasts a signed raw transactions in hex format.

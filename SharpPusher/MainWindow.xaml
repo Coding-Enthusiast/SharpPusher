@@ -3,8 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:SharpPusher"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="Groestlcoin Broadcaster" Height="532" Width="800" FontSize="14" WindowStartupLocation="CenterScreen"
-        Background="#023899">
+        Title="Groestlcoin Broadcaster" SizeToContent="Height" Width="800" FontSize="14"
+        WindowStartupLocation="CenterScreen"
+        Background="#506477">
     <Window.DataContext>
         <vm:MainWindowViewModel />
     </Window.DataContext>
@@ -22,29 +23,50 @@
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
 
-              <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" Background="#FF0E2651">
+        <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3" Background="#232937">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Rectangle Fill="{StaticResource SharpLogo}" Width="128" Height="128" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5"></Rectangle>
-                <TextBlock FontFamily="Verdana" FontWeight="UltraBlack" Foreground="#0091B9"
-                           HorizontalAlignment="Center" FontSize="17" Padding="0" Margin="0 0 0 -2">
-                    GROESTLCOIN
-                </TextBlock>
-                <TextBlock FontFamily="Verdana" TextOptions.TextRenderingMode="ClearType" Foreground="White" HorizontalAlignment="Center" FontSize="15" Padding="0" Margin="0" Text="BROADCASTER" />
-                <TextBox VerticalAlignment="Bottom" BorderBrush="Transparent" BorderThickness="0" Text="{Binding VersionString, Mode=OneWay}" TextAlignment="Center"
-                         Background="{DynamicResource PrimaryHueDarkBrush}"
-                         Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" IsReadOnly="True"
-                         Focusable="False" IsTabStop="False" Cursor="Pen" Margin="5" FontWeight="Bold">
+                <Rectangle Fill="{StaticResource Logo}" Width="128" Height="128" HorizontalAlignment="Center"
+                           VerticalAlignment="Center" Margin="5" />
+                <TextBlock FontFamily="Abadi MT Condensed" FontWeight="UltraBlack" Foreground="{StaticResource ForegroundBrush}" HorizontalAlignment="Center" FontSize="17" Padding="0" Margin="0 0 0 -2">GROESTLCOIN </TextBlock>
+                <TextBlock FontFamily="Abadi MT Condensed" FontWeight="Bold"
+                           Foreground="{StaticResource SecondaryForegroundBrush}" HorizontalAlignment="Center"
+                           FontSize="15" Padding="0" Margin="0" Text="BROADCASTER" />
+                <TextBox VerticalAlignment="Bottom" BorderBrush="Transparent" BorderThickness="0"
+                         Text="{Binding VersionString, Mode=OneWay}" TextAlignment="Center"
+                         Background="{DynamicResource SecondaryBackgroundBrush}"
+                         Foreground="{DynamicResource SecondaryForegroundBrush}" IsReadOnly="True"
+                         Focusable="False" IsTabStop="False" Cursor="Pen" Margin="5" FontWeight="Normal">
                     <TextBox.Effect>
                         <DropShadowEffect />
                     </TextBox.Effect>
                 </TextBox>
             </StackPanel>
-            <TextBlock Grid.Column="1" materialDesign:HintAssist.Hint="Output" Text="{Binding Errors}" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" TextWrapping="Wrap" />
-            <Label Grid.Column="1" Opacity="0.2" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" FontSize="72" FontWeight="ExtraBlack">RESULT</Label>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <DataGrid Grid.Row="0" HorizontalAlignment="Stretch" RowHeight="35" VerticalAlignment="Stretch" Background="Transparent" CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="True" AutoGenerateColumns="False" Foreground="{DynamicResource ForegroundBrush}" ItemsSource="{Binding ResultList}">
+                    <DataGrid.Resources>
+                        <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Foreground" Value="{StaticResource SecondaryForegroundBrush}" />
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Time" Binding="{Binding CreatedTime}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Transaction ID" Width="3*" Binding="{Binding TxnId}" />
+                        <DataGridTextColumn Header="Result" Binding="{Binding Result}" Width="1*"/>
+                        <DataGridTextColumn Header="Output" Width="2*" Binding="{Binding Output}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Label Grid.Row="0" Opacity="0.02" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" FontSize="42" FontWeight="ExtraBlack">
+                    RESULT
+                </Label>
+            </Grid>
         </Grid>
 
 
@@ -52,17 +74,26 @@
                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel Margin="0 0 0 0">
                 <materialDesign:Card Canvas.ZIndex="99" Margin="0 0 -1 0"
-                                     Background="{DynamicResource PrimaryHueDarkBrush}"
+                                     Background="{DynamicResource BackgroundBrush}"
                                      Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
                                      HorizontalAlignment="Stretch">
                     <StackPanel Orientation="Horizontal" Margin="0 4 0 8" HorizontalAlignment="Stretch">
-                        <materialDesign:Chip IconBackground="{DynamicResource PrimaryHueLightBrush}" IconForeground="{DynamicResource PrimaryHueLightForegroundBrush}" Background="Transparent" Icon="1" Margin="5 0 5 0" Padding="0" FontSize="12" />
-                        <TextBlock HorizontalAlignment="Center" FontSize="14" VerticalAlignment="Center">Enter Raw TXN ID</TextBlock>
+                        <materialDesign:Chip IconBackground="Transparent"
+                                             IconForeground="{DynamicResource ForegroundBrush}"
+                                             Background="Transparent" Margin="5 0 5 0" Padding="0" FontSize="12">
+                            <materialDesign:Chip.Icon>
+                                <materialDesign:PackIcon Width="30" Height="30" Kind="Numeric1Box" />
+                            </materialDesign:Chip.Icon>
+                        </materialDesign:Chip>
+                        <TextBlock HorizontalAlignment="Center" FontSize="14" VerticalAlignment="Center"
+                                   Foreground="{StaticResource ForegroundBrush}">
+                            Enter Raw TXN ID
+                        </TextBlock>
                     </StackPanel>
-                    
+
                 </materialDesign:Card>
                 <TextBox Text="{Binding RawTx, UpdateSourceTrigger=PropertyChanged}" FontSize="9"
-                         Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                         Foreground="{DynamicResource ForegroundBrush}"
                          materialDesign:HintAssist.Hint="Raw TXN ID" VerticalScrollBarVisibility="Auto"
                          TextWrapping="Wrap" Margin="5,5,5,4.802" Grid.Column="0" TextChanged="TextBox_TextChanged" />
             </StackPanel>
@@ -72,42 +103,69 @@
             <StackPanel Margin="0 0 0 0">
                 <materialDesign:Card Canvas.ZIndex="99" BorderThickness="10"
                                      BorderBrush="{DynamicResource PrimaryHueDarkBrush}"
-                                     Background="{DynamicResource PrimaryHueDarkBrush}"
+                                     Background="{DynamicResource BackgroundBrush}"
                                      Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                     <StackPanel Orientation="Horizontal" Margin="0 4 0 8" HorizontalAlignment="Stretch">
-                        <materialDesign:Chip IconBackground="{DynamicResource PrimaryHueLightBrush}" IconForeground="{DynamicResource PrimaryHueLightForegroundBrush}" Background="Transparent" Icon="2" Margin="5 0 5 0" Padding="0" FontSize="12" />
-                        <TextBlock HorizontalAlignment="Center" FontSize="14" VerticalAlignment="Center">Select Network</TextBlock>
+                        <materialDesign:Chip IconBackground="Transparent"
+                                             IconForeground="{DynamicResource ForegroundBrush}"
+                                             Background="Transparent" Margin="5 0 5 0" Padding="0" FontSize="12">
+                            <materialDesign:Chip.Icon>
+                                <materialDesign:PackIcon Width="30" Height="30" Kind="Numeric2Box" />
+                            </materialDesign:Chip.Icon>
+                        </materialDesign:Chip>
+                        <TextBlock HorizontalAlignment="Center" FontSize="14" VerticalAlignment="Center"
+                                   Foreground="{StaticResource ForegroundBrush}">
+                            Select Network
+                        </TextBlock>
                     </StackPanel>
-                    
+
                 </materialDesign:Card>
                 <ListView ItemsSource="{Binding NetworkList}" SelectedItem="{Binding SelectedNetwork}"
-                          Background="{DynamicResource PrimaryHueDarkForegroundBrush}" />
+                          Background="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                          Foreground="{StaticResource ForegroundBrush}" />
             </StackPanel>
         </materialDesign:Card>
 
         <materialDesign:Card Grid.Column="2" Grid.Row="2" Margin="5" Padding="-1 -1 -1 -1" VerticalAlignment="Stretch">
             <StackPanel Margin="0">
                 <materialDesign:Card Margin="0" Padding="0" BorderBrush="{DynamicResource PrimaryHueDarkBrush}"
-                                     Background="{DynamicResource PrimaryHueDarkBrush}"
+                                     Background="{DynamicResource BackgroundBrush}"
                                      Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
                     <StackPanel Orientation="Horizontal" Margin="0 4 0 8" HorizontalAlignment="Stretch">
-                        <materialDesign:Chip IconBackground="{DynamicResource PrimaryHueLightBrush}" IconForeground="{DynamicResource PrimaryHueLightForegroundBrush}" Background="Transparent" Icon="3" Margin="5 0 5 0" Padding="0" FontSize="12" />
-                        <TextBlock HorizontalAlignment="Center" FontSize="14" VerticalAlignment="Center">Select Service</TextBlock>
+                        <materialDesign:Chip IconBackground="Transparent"
+                                             IconForeground="{DynamicResource ForegroundBrush}"
+                                             Background="Transparent" Margin="5 0 5 0" Padding="0" FontSize="12">
+                            <materialDesign:Chip.Icon>
+                                <materialDesign:PackIcon Width="30" Height="30" Kind="Numeric3Box" />
+                            </materialDesign:Chip.Icon>
+                        </materialDesign:Chip>
+                        <TextBlock HorizontalAlignment="Center" FontSize="14" VerticalAlignment="Center"
+                                   Foreground="{StaticResource ForegroundBrush}">
+                            Select Service
+                        </TextBlock>
                     </StackPanel>
-                    
+
                 </materialDesign:Card>
-                <ListView ItemsSource="{Binding ApiList}" SelectedItem="{Binding SelectedApi}" Margin="0,5,0,0" />
+                <ListView ItemsSource="{Binding ApiList}" SelectedItem="{Binding SelectedApi}" Margin="0,5,0,0"
+                          Foreground="{StaticResource ForegroundBrush}" />
             </StackPanel>
         </materialDesign:Card>
         <Grid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="43"/>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="37" />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <materialDesign:Chip Grid.Column="0" IconBackground="{DynamicResource PrimaryHueLightBrush}" IconForeground="{DynamicResource PrimaryHueLightForegroundBrush}" Background="Transparent" Margin="5 0 5 0" Padding="0" FontSize="15" FontWeight="ExtraBlack" Icon="4"></materialDesign:Chip>
-            <Button Content="Broadcast" Grid.Column="1" Command="{Binding BroadcastTxCommand}" Margin="5,5,5,5" VerticalAlignment="Center" />
+            <materialDesign:Chip Grid.Column="0" IconBackground="Transparent"
+                                 IconForeground="{DynamicResource ForegroundBrush}" Background="Transparent"
+                                 Margin="5 0 5 0" Padding="0" FontSize="15" FontWeight="ExtraBlack">
+                <materialDesign:Chip.Icon>
+                    <materialDesign:PackIcon Width="30" Height="30" Kind="Numeric4Box" />
+                </materialDesign:Chip.Icon>
+            </materialDesign:Chip>
+            <Button Content="Broadcast" Grid.Column="1" Command="{Binding BroadcastTxCommand}" Background="{StaticResource ForegroundGradient}" Margin="5,5,5,5"
+                    VerticalAlignment="Center" />
         </Grid>
-        <StatusBar Grid.Column="0" Background="#FF0E2651" Grid.ColumnSpan="3" Grid.Row="4">
+        <StatusBar Grid.Column="0" Background="#232937" Grid.ColumnSpan="3" Grid.Row="4">
             <TextBlock Text="{Binding Status}" FontSize="12" Margin="10 0 0 0" FontFamily="Verdana"
                        Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" HorizontalAlignment="Right"
                        TextAlignment="Right" />

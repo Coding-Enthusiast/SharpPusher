@@ -6,55 +6,47 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpPusher.Services.PushServices
-{
-    public sealed class BlockBook : Api
-    {
+namespace SharpPusher.Services.PushServices {
+    public sealed class BlockBook : Api {
         public override string ToString() {
             return "BlockBook";
         }
 
-        public override async Task<Response<string>> PushTx(string txHex)
-        {
-            Response<string> resp = new Response<string>();
+        public override async Task<Response<ResultWrapper>> PushTx(string txHex) {
+            Response<ResultWrapper> resp = new Response<ResultWrapper>();
+            var resultWrapper = new ResultWrapper();
+            resultWrapper.TxnId = txHex;
 
-            using (HttpClient client = new HttpClient())
-            {
-                try
-                {
+            using (HttpClient client = new HttpClient()) {
+                try {
                     string url = "https://blockbook.groestlcoin.org/api/sendtx/" + txHex;
 
-                    //Response<string> respnu = await PushTx(txHex, "hex", url);
-
-                    //var res = respnu.Result;
-
-                    //string json = JsonConvert.SerializeObject(txHex);
-
-                    var content = new FormUrlEncodedContent(new[]
-                    {
-                        new KeyValuePair<string, string>("hex", txHex)
-                    });
+                    var content = new FormUrlEncodedContent(new[] {
+                                                                      new KeyValuePair<string, string>("hex", txHex)
+                                                                  });
 
                     HttpResponseMessage httpResp = await client.GetAsync(url);
 
                     string result = await httpResp.Content.ReadAsStringAsync();
-                    if (httpResp.IsSuccessStatusCode)
-                    {
+                    if (httpResp.IsSuccessStatusCode) {
                         JObject jResult = JObject.Parse(result);
-                        resp.Result = "Successfully done. Tx ID: " + jResult["txid"].ToString();
+                        resultWrapper.Output = "Successfully done. Tx ID: " + jResult["txid"];
+                        resultWrapper.Result = "Success";
                     }
-                    else
-                    {
+                    else {
+                        resultWrapper.Result = "Fail";
+                        resultWrapper.Output = result;
                         resp.Errors.Add(result);
                     }
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     string errMsg = (ex.InnerException == null) ? ex.Message : ex.Message + " " + ex.InnerException;
+                    resultWrapper.Output = (ex.InnerException == null) ? ex.Message : ex.Message + " " + ex.InnerException;
+                    resultWrapper.Result = "Fail";
                     resp.Errors.Add(errMsg);
                 }
             }
-
+            resp.Result = resultWrapper;
             return resp;
         }
     }

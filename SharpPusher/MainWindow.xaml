@@ -9,8 +9,9 @@
     <Window.DataContext>
         <vm:MainWindowViewModel />
     </Window.DataContext>
-    <materialDesign:DialogHost CloseOnClickAway="True" Margin="0" Padding="0">
-    <Grid>
+    <materialDesign:DialogHost CloseOnClickAway="True" Margin="0" Padding="0" Style="{StaticResource MaterialDesignEmbeddedDialogHost}" Background="{StaticResource BackgroundBrush}">
+        <materialDesign:DialogHost.DialogTheme>Dark</materialDesign:DialogHost.DialogTheme>
+        <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
             <RowDefinition Height="220" />
@@ -50,10 +51,10 @@
                         </Button>
                     </materialDesign:Flipper.FrontContent>
                     <materialDesign:Flipper.BackContent>
-                        <Button HorizontalContentAlignment="Center"
+                            <Button HorizontalContentAlignment="Center" Padding="0"
                             Style="{StaticResource MaterialDesignFlatButton}" Foreground="{StaticResource ForegroundBrush}"
                             Command="{x:Static materialDesign:Flipper.FlipCommand}" Background="Transparent" HorizontalAlignment="Stretch" 
-                            Margin="8">How're you doin'?</Button>
+                            Margin="8">HEY! Turn me back!</Button>
                     </materialDesign:Flipper.BackContent>
                 </materialDesign:Flipper>
             </StackPanel>

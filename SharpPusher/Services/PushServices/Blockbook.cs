@@ -33,10 +33,10 @@ namespace SharpPusher.Services.PushServices {
                     if (httpResp.IsSuccessStatusCode) {
                         JObject jResult = JObject.Parse(result);
                         resultWrapper.Output = "Successfully done. Tx ID: " + jResult["txid"];
-                        resultWrapper.Result = Enum.GetName(typeof(Result), Result.Success);
+                        resultWrapper.Result = Result.Success;
                     }
                     else {
-                        resultWrapper.Result = Enum.GetName(typeof(Result), Result.Failed);
+                        resultWrapper.Result = Result.Failed;
                         resultWrapper.Output = result;
                         resp.Errors.Add(result);
                     }
@@ -44,7 +44,7 @@ namespace SharpPusher.Services.PushServices {
                 catch (Exception ex) {
                     string errMsg = (ex.InnerException == null) ? ex.Message : ex.Message + " " + ex.InnerException;
                     resultWrapper.Output = (ex.InnerException == null) ? ex.Message : ex.Message + " " + ex.InnerException;
-                    resultWrapper.Result = Enum.GetName(typeof(Result), Result.Failed);
+                    resultWrapper.Result = Result.Failed;
                     resp.Errors.Add(errMsg);
                 }
             }

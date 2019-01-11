@@ -126,7 +126,7 @@ namespace SharpPusher {
             if (resp.Errors.Any()) {
                 Errors = resp.Errors.GetErrors();
             }
-            Status = resp.Result.Result;
+            Status = resp.Result.ResultString;
             IsSending = false;
         }
 

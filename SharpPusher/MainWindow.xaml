@@ -72,7 +72,7 @@
                         <DataGridTextColumn Header="Transaction ID" Width="2*" Binding="{Binding TxnId}" />
                         <DataGridTextColumn Header="Network" Width="1.5*" Binding="{Binding Network}"/>
                         <DataGridTextColumn Header="Provider" Width="1.5*" Binding="{Binding Provider}"/>
-                        <DataGridTextColumn Header="Result" Binding="{Binding Result}" Width="1.1*"/>
+                        <DataGridTextColumn Header="Result" Binding="{Binding ResultString}" Width="1.1*"/>
                         <DataGridTextColumn Header="Output" Width="2*" Binding="{Binding Output}"/>
                     </DataGrid.Columns>
                 </DataGrid>

@@ -7,6 +7,11 @@ namespace SharpPusher.Services
 {
     public abstract class Api
     {
+        public enum Result {
+            Failed = 0,
+            Success = 1
+        }
+
         /// <summary>
         /// Broadcasts a signed raw transactions in hex format.
         /// </summary>

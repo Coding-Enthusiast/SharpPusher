@@ -49,7 +49,7 @@
             <Hyperlink NavigateUri="https://www.groestlcoin.org" RequestNavigate="Hyperlink_RequestNavigate" Foreground="{StaticResource ForegroundGradient}">www.groestlcoin.org</Hyperlink>
                                 </TextBlock>
                                 <TextBlock FontFamily="Verdana" HorizontalAlignment="Center"  TextWrapping="Wrap" VerticalAlignment="Top" FontSize="13">
-            <Hyperlink NavigateUri="https://github.com/Groestlcoin/Groestlcoin-EasyWatcher" RequestNavigate="Hyperlink_RequestNavigate" Foreground="{StaticResource ForegroundGradient}">Github</Hyperlink>
+            <Hyperlink NavigateUri="https://github.com/Groestlcoin/Groestlcoin-Broadcaster" RequestNavigate="Hyperlink_RequestNavigate" Foreground="{StaticResource ForegroundGradient}">Github</Hyperlink>
                                 </TextBlock>
                                 <Separator/>
 

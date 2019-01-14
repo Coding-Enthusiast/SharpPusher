@@ -1,0 +1,11 @@
+[msi2exe]
+msi_file=C:\Users\achapman\source\repos\SharpPusher\GroBroInstaller\Release\Groestlcoin Broadcaster.msi
+output_file=C:\Users\achapman\source\repos\SharpPusher\GroBroInstaller\Release\Groestlcoin Broadcaster x86.exe
+icon_file=C:\Users\achapman\source\repos\SharpPusher\SharpPusher\PusherIcon.ico
+custom_version=no
+product_name=
+product_version=0, 0, 0, 0
+file_version=0, 0, 0, 0
+company_name=
+legal_copyright=
+platform=x86

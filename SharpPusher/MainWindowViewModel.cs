@@ -17,24 +17,19 @@ namespace SharpPusher
             BroadcastTxCommand = new BindableCommand(BroadcastTx, CanBroadcast);
 
             Version ver = Assembly.GetExecutingAssembly().GetName().Version;
-            versionString = string.Format("Version {0}.{1}.{2}", ver.Major, ver.Minor, ver.Build);
+            VersionString = ver.ToString(3);
         }
 
-
-        private string versionString;
-        public string VersionString
-        {
-            get { return versionString; }
-        }
+        public string VersionString { get; }
 
 
-        private string rawTx;
+        private string _rawTx;
         public string RawTx
         {
-            get { return rawTx; }
+            get => _rawTx;
             set
             {
-                if (SetField(ref rawTx, value))
+                if (SetField(ref _rawTx, value))
                 {
                     BroadcastTxCommand.RaiseCanExecuteChanged();
                 }
@@ -50,13 +45,13 @@ namespace SharpPusher
 
         public ObservableCollection<Networks> NetworkList { get; set; }
 
-        private Networks selectedNetwork;
+        private Networks _selNet;
         public Networks SelectedNetwork
         {
-            get { return selectedNetwork; }
+            get { return _selNet; }
             set
             {
-                if (SetField(ref selectedNetwork, value))
+                if (SetField(ref _selNet, value))
                 {
                     SetApiList();
                 }
@@ -69,38 +64,36 @@ namespace SharpPusher
                 case Networks.Bitcoin:
                     ApiList = new ObservableCollection<Api>()
                     {
-                        new Blockr(),
+                        new Blockchair(Blockchair.Chain.BTC),
                         new Smartbit(),
                         new BlockCypher(),
-                        new BlockExplorer(),
-                        //new BlockchainInfo() /*I can't get BLockchain.info API to work, and the code is exact copy of their repository! So I'll just remove it for now (only from this list) until I can fix it.*/
                     };
                     break;
                 case Networks.BitcoinCash:
                     ApiList = new ObservableCollection<Api>()
                     {
-                        new BlockDozer(),
+                        new Blockchair(Blockchair.Chain.BCH),
                     };
                     break;
             }
         }
 
 
-        private ObservableCollection<Api> apiList;
+        private ObservableCollection<Api> _apiList;
         public ObservableCollection<Api> ApiList
         {
-            get { return apiList; }
-            set { SetField(ref apiList, value); }
+            get => _apiList;
+            set => SetField(ref _apiList, value);
         }
 
 
-        private Api selectedApi;
+        private Api _selApi;
         public Api SelectedApi
         {
-            get { return selectedApi; }
+            get => _selApi;
             set
             {
-                if (SetField(ref selectedApi, value))
+                if (SetField(ref _selApi, value))
                 {
                     BroadcastTxCommand.RaiseCanExecuteChanged();
                 }
@@ -108,13 +101,13 @@ namespace SharpPusher
         }
 
 
-        private bool isSending;
+        private bool _isSending;
         public bool IsSending
         {
-            get { return isSending; }
+            get => _isSending;
             set
             {
-                if (SetField(ref isSending, value))
+                if (SetField(ref _isSending, value))
                 {
                     BroadcastTxCommand.RaiseCanExecuteChanged();
                 }
@@ -144,7 +137,7 @@ namespace SharpPusher
         }
         private bool CanBroadcast()
         {
-            if (!string.IsNullOrWhiteSpace(RawTx) && !IsSending && selectedApi != null)
+            if (!string.IsNullOrWhiteSpace(RawTx) && !IsSending && SelectedApi != null)
             {
                 return true;
             }
@@ -153,6 +146,5 @@ namespace SharpPusher
                 return false;
             }
         }
-
     }
 }

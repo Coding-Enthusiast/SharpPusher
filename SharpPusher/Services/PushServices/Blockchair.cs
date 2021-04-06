@@ -1,17 +1,28 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace SharpPusher.Services.PushServices
 {
-   public class BlockDozer : Api
+    public sealed class Blockchair : Api
     {
-        public override string ApiName
+        public Blockchair(Chain chain)
         {
-            get { return "BlockDozer"; }
+            this.chain = chain;
         }
+
+        public enum Chain
+        {
+            BTC,
+            BCH
+        }
+
+        private readonly Chain chain;
+
+        public override string ApiName => "Blockchair";
 
         public override async Task<Response<string>> PushTx(string txHex)
         {
@@ -21,11 +32,12 @@ namespace SharpPusher.Services.PushServices
             {
                 try
                 {
-                    string url = "http://blockdozer.com/insight-api/tx/send";
+                    string chainName = chain == Chain.BTC ? "bitcoin" : "bitcoin-cash";
+                    string url = $"https://api.blockchair.com/{chainName}/push/transaction";
 
                     var content = new FormUrlEncodedContent(new[]
                     {
-                        new KeyValuePair<string, string>( "rawtx", txHex)
+                        new KeyValuePair<string, string>("data", txHex)
                     });
 
                     HttpResponseMessage httpResp = await client.PostAsync(url, content);
@@ -34,7 +46,12 @@ namespace SharpPusher.Services.PushServices
                     if (httpResp.IsSuccessStatusCode)
                     {
                         JObject jResult = JObject.Parse(result);
-                        resp.Result = "Successfully done. Tx ID: " + jResult["txid"].ToString();
+                        resp.Result = "Successfully done. Tx ID: " + jResult["data"]["transaction_hash"].ToString();
+                    }
+                    else if (httpResp.StatusCode == HttpStatusCode.BadRequest)
+                    {
+                        JObject jResult = JObject.Parse(result);
+                        resp.Result = "Bad request: " + jResult["context"]["error"].ToString();
                     }
                     else
                     {
@@ -50,6 +67,5 @@ namespace SharpPusher.Services.PushServices
 
             return resp;
         }
-
     }
 }

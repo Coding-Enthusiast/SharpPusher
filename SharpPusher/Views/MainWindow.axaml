@@ -5,7 +5,7 @@
         xmlns:vm="clr-namespace:SharpPusher.ViewModels;assembly=SharpPusher"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SharpPusher.Views.MainWindow"
-        Height="450"
+        Height="650"
         Width="800"
         FontSize="14"
         Title="SharpPusher">

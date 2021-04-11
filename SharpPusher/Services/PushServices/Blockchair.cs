@@ -17,7 +17,24 @@ namespace SharpPusher.Services.PushServices
         public enum Chain
         {
             BTC,
-            BCH
+            BCH,
+            DOGE,
+            LTC,
+            XMR,
+            TBTC,
+            BSV,
+            ZEC,
+            XRP,
+            ΤETH,
+            ETH,
+            EOS,
+            XTZ,
+            XIN,
+            ADA,
+            XLM,
+            GRS,
+            DASH,
+            ABC
         }
 
         private readonly Chain chain;
@@ -32,7 +49,31 @@ namespace SharpPusher.Services.PushServices
             {
                 try
                 {
-                    string chainName = chain == Chain.BTC ? "bitcoin" : "bitcoin-cash";
+                    string chainName = chain switch
+                    {
+                        Chain.BTC => "bitcoin",
+                        Chain.TBTC => "bitcoin/testnet",
+                        Chain.BCH => "bitcoin-cash",
+                        Chain.DOGE => "dogecoin",
+                        Chain.LTC => "litecoin",
+                        Chain.XMR => "monero",
+                        Chain.ADA => "cardano",
+                        Chain.BSV => "bitcoin-sv",
+                        Chain.EOS => "eos",
+                        Chain.ETH => "ethereum",
+                        Chain.ΤETH => "ethereum/testnet",
+                        Chain.XIN => "mixin",
+                        Chain.XLM => "stellar",
+                        Chain.XRP => "ripple",
+                        Chain.XTZ => "tezos",
+                        Chain.DASH => "dash",
+                        Chain.GRS => "groestlcoin",
+                        Chain.ABC => "bitcoin-abc",
+                        Chain.ZEC => "zcash",
+                        _ => throw new ArgumentException("Undefined Chain")
+                    };
+
+
                     string url = $"https://api.blockchair.com/{chainName}/push/transaction";
 
                     var content = new FormUrlEncodedContent(new[]

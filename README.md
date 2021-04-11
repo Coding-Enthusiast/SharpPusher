@@ -4,17 +4,15 @@ A simple GUI to broadcast bitcoin and bitcoin cash transactions to the network.
 
 **Packages needed:** Newtonsoft.Json
 
-![ScreenShot](https://i.imgur.com/WgTTgwN.jpg)
+![ScreenShot](https://i.imgur.com/Ho7YmBL.png)
 
 
 ## Features
 
 1. Pushing bitcoin raw transaction through following services:
-* https://blockr.io
 * https://www.smartbit.com.au
 * https://blockcypher.com
-* https://blockexplorer.com
-* https://blockchain.info
+* https://blockchair.com
 2. Pushing bitcoin cash raw transaction through following services:
 * http://blockdozer.com
 
@@ -22,7 +20,7 @@ A simple GUI to broadcast bitcoin and bitcoin cash transactions to the network.
 
 - [ ] Add ability to push transactions to network directly through nodes not third parties.
 - [ ] Add unit test!
-- [ ] Add other altcoin networks. ~~BCH(BCC)~~, LTC, Doge
+- [ ] Add other altcoin networks. ~~BCH(BCC), LTC, Doge~~
 
 ## Announcement Link
 Topic on bitcointalk.org

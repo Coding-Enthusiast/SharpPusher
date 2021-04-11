@@ -49,62 +49,29 @@ namespace SharpPusher.Services.PushServices
             {
                 try
                 {
-                    string chainName = "";
-                    if(chain == Chain.BTC)
+                    string chainName = chain switch
                     {
-                        chainName = "bitcoin";
-                    }else if(chain == Chain.TBTC)
-                    {
-                        chainName = "bitcoin/testnet";
-                    }else if(chain == Chain.BCH)
-                    {
-                        chainName = "bitcoin-cash";
-                    }else if(chain == Chain.DOGE)
-                    {
-                        chainName = "dogecoin";
-                    }else if(chain == Chain.LTC)
-                    {
-                        chainName = "litecoin";
-                    }else if(chain == Chain.XMR)
-                    {
-                        chainName = "monero";
-                    }else if(chain == Chain.ADA)
-                    {
-                        chainName = "cardano";
-                    }else if(chain == Chain.BSV)
-                    {
-                        chainName = "bitcoin-sv";
-                    }else if(chain == Chain.EOS)
-                    {
-                        chainName = "eos";
-                    }else if(chain == Chain.ETH)
-                    {
-                        chainName = "ethereum";
-                    }else if(chain == Chain.tETH)
-                    {
-                        chainName = "ethereum/testnet";
-                    }else if(chain == Chain.XIN)
-                    {
-                        chainName = "mixin";
-                    }else if(chain == Chain.XLM)
-                    {
-                        chainName = "stellar";
-                    }else if(chain == Chain.XRP)
-                    {
-                        chainName = "ripple";
-                    }else if(chain == Chain.XTZ)
-                    {
-                        chainName = "tezos";
-                    }else if (chain == Chain.DASH)
-                    {
-                        chainName = "dash";
-                    }else if (chain == Chain.GRS)
-                    {
-                        chainName = "groestlcoin";
-                    }else if (chain == Chain.ABC)
-                    {
-                        chainName = "bitcoin-abc";
-                    }
+                        Chain.BTC => "bitcoin",
+                        Chain.TBTC => "bitcoin/testnet",
+                        Chain.BCH => "bitcoin-cash",
+                        Chain.DOGE => "dogecoin",
+                        Chain.LTC => "litecoin",
+                        Chain.XMR => "monero",
+                        Chain.ADA => "cardano",
+                        Chain.BSV => "bitcoin-sv",
+                        Chain.EOS => "eos",
+                        Chain.ETH => "ethereum",
+                        Chain.tETH => "ethereum/testnet",
+                        Chain.XIN => "mixin",
+                        Chain.XLM => "stellar",
+                        Chain.XRP => "ripple",
+                        Chain.XTZ => "tezos",
+                        Chain.DASH => "dash",
+                        Chain.GRS => "groestlcoin",
+                        Chain.ABC => "bitcoin-abc",
+                        Chain.ZEC => "zcash",
+                        _ => throw new ArgumentException("Undefined Chain")
+                    };
 
 
                     string url = $"https://api.blockchair.com/{chainName}/push/transaction";

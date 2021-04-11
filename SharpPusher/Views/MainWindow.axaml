@@ -1,0 +1,64 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:SharpPusher.ViewModels;assembly=SharpPusher"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SharpPusher.Views.MainWindow"
+        Height="450"
+        Width="800"
+        FontSize="14"
+        Title="SharpPusher">
+
+  <Design.DataContext>
+    <vm:MainWindowViewModel/>
+  </Design.DataContext>
+  
+  <Grid ColumnDefinitions="2*,1*" RowDefinitions="1*,auto">
+    <TextBox Text="{Binding RawTx}"
+             TextWrapping="Wrap"
+             AcceptsReturn="True"
+             Watermark="Enter raw transaction hex here"
+             UseFloatingWatermark="False"
+             Margin="5"
+             Grid.Column="0"/>
+
+    <StackPanel Orientation="Vertical" Spacing="3" Margin="5" Grid.Column="1" Grid.Row="0">
+      <ListBox Items="{Binding NetworkList}"
+               SelectedItem="{Binding SelectedNetwork}"
+               Classes="RadioButtonListBox"/>
+
+      <ListBox Items="{Binding ApiList}"
+               SelectedItem="{Binding SelectedApi}">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding ApiName}"/>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+
+      <Button Content="Broadcast"
+              Command="{Binding BroadcastTxCommand}"
+              HorizontalAlignment="Stretch"
+              HorizontalContentAlignment="Center"/>
+
+      <TextBlock Text="{Binding Errors}"
+                 TextWrapping="Wrap"/>
+
+      <TextBlock Text="{Binding VersionString}"
+                 TextAlignment="Center"
+                 Background="#FFADD8EC"
+                 Cursor="Hand"
+                 FontFamily="Comic Sans MS"
+                 FontWeight="Bold">
+      </TextBlock>
+    </StackPanel>
+
+
+    <TextBlock Text="{Binding Status}"
+               Height="30"
+               Background="LightGray"
+               Grid.ColumnSpan="2"
+               Grid.Row="1"/>
+  </Grid>
+</Window>

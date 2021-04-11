@@ -1,23 +1,33 @@
-﻿using MVVMLib;
+﻿// SharpPusher
+// Copyright (c) 2017 Coding Enthusiast
+// Distributed under the MIT software license, see the accompanying
+// file LICENCE or http://www.opensource.org/licenses/mit-license.php.
+
+using Autarkysoft.Bitcoin.Encoders;
+using MVVMLib;
 using SharpPusher.Services;
 using SharpPusher.Services.PushServices;
 using System;
 using System.Collections.ObjectModel;
 using System.Reflection;
 
-namespace SharpPusher
+namespace SharpPusher.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
         public MainWindowViewModel()
         {
             NetworkList = new ObservableCollection<Networks>((Networks[])Enum.GetValues(typeof(Networks)));
+            _selNet = NetworkList[0];
             SetApiList();
+            _selApi = ApiList[0];
 
             BroadcastTxCommand = new BindableCommand(BroadcastTx, CanBroadcast);
 
-            Version ver = Assembly.GetExecutingAssembly().GetName().Version;
+            Version ver = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0, 0, 0);
             VersionString = ver.ToString(3);
+
+            _rawTx = string.Empty;
         }
 
         public string VersionString { get; }
@@ -79,7 +89,7 @@ namespace SharpPusher
         }
 
 
-        private ObservableCollection<Api> _apiList;
+        private ObservableCollection<Api> _apiList = new();
         public ObservableCollection<Api> ApiList
         {
             get => _apiList;
@@ -119,6 +129,12 @@ namespace SharpPusher
         public BindableCommand BroadcastTxCommand { get; private set; }
         private async void BroadcastTx()
         {
+            if (!Base16.IsValid(RawTx))
+            {
+                Status = "Invalid hex.";
+                return;
+            }
+
             IsSending = true;
             Errors = string.Empty;
             Status = "Broadcasting Transaction...";

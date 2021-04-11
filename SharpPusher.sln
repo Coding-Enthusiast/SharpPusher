@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpPusher", "SharpPusher\SharpPusher.csproj", "{8954305B-58E4-4978-B19F-7C2922F8BAE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpPusher", "SharpPusher\SharpPusher.csproj", "{8954305B-58E4-4978-B19F-7C2922F8BAE7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVMLib", "MVVMLib\MVVMLib.csproj", "{9A01F121-9115-43E1-A652-27B42A33C7A2}"
 EndProject
@@ -24,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {15E9ABE3-DD58-460B-9F99-1B5790085510}
 	EndGlobalSection
 EndGlobal

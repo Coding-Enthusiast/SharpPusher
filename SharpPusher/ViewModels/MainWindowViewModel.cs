@@ -183,7 +183,7 @@ namespace SharpPusher.ViewModels
                 case Networks.EthereumTestnet:
                     ApiList = new ObservableCollection<Api>()
                     {
-                        new Blockchair(Blockchair.Chain.tETH),
+                        new Blockchair(Blockchair.Chain.ΤETH),
                     };
                     break;
                 case Networks.Groestlcoin:

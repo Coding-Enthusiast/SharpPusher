@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
+﻿// SharpPusher
+// Copyright (c) 2017 Coding Enthusiast
+// Distributed under the MIT software license, see the accompanying
+// file LICENCE or http://www.opensource.org/licenses/mit-license.php.
+
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace MVVMLib
+namespace SharpPusher.MVVM
 {
     public class InpcBase : INotifyPropertyChanged
     {

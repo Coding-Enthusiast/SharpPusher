@@ -1,6 +1,11 @@
-﻿using System;
+﻿// SharpPusher
+// Copyright (c) 2017 Coding Enthusiast
+// Distributed under the MIT software license, see the accompanying
+// file LICENCE or http://www.opensource.org/licenses/mit-license.php.
 
-namespace MVVMLib
+using System;
+
+namespace SharpPusher.MVVM
 {
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class DependsOnPropertyAttribute : Attribute

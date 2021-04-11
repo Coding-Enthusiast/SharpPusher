@@ -4,7 +4,7 @@
 // file LICENCE or http://www.opensource.org/licenses/mit-license.php.
 
 using Autarkysoft.Bitcoin.Encoders;
-using MVVMLib;
+using SharpPusher.MVVM;
 using SharpPusher.Services;
 using SharpPusher.Services.PushServices;
 using System;

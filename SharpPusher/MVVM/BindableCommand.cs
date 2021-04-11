@@ -1,7 +1,12 @@
-﻿using System;
+﻿// SharpPusher
+// Copyright (c) 2017 Coding Enthusiast
+// Distributed under the MIT software license, see the accompanying
+// file LICENCE or http://www.opensource.org/licenses/mit-license.php.
+
+using System;
 using System.Windows.Input;
 
-namespace MVVMLib
+namespace SharpPusher.MVVM
 {
     public class BindableCommand : ICommand
     {
@@ -12,7 +17,7 @@ namespace MVVMLib
         public BindableCommand(Action actionToExecute, Func<bool> canExecute)
         {
             methodToExecute = actionToExecute;
-            canExecuteMethod = canExecute;
+            canExecuteMethod = canExecute ?? throw new ArgumentNullException(nameof(canExecute));
         }
 
 

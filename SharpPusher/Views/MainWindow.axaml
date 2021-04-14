@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:SharpPusher.ViewModels;assembly=SharpPusher"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650"
         x:Class="SharpPusher.Views.MainWindow"
         Height="650"
         Width="800"
@@ -13,7 +13,7 @@
   <Design.DataContext>
     <vm:MainWindowViewModel/>
   </Design.DataContext>
-  
+
   <Grid ColumnDefinitions="2*,1*" RowDefinitions="1*,auto">
     <TextBox Text="{Binding RawTx}"
              TextWrapping="Wrap"
@@ -36,6 +36,10 @@
           </DataTemplate>
         </ListBox.ItemTemplate>
       </ListBox>
+
+      <CheckBox Content="Deserialize and check transaction" 
+                IsVisible="{Binding IsCheckTxVisible}"
+                IsChecked="{Binding CheckTx}" />
 
       <Button Content="Broadcast"
               Command="{Binding BroadcastTxCommand}"

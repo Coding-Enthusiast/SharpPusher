@@ -3,12 +3,15 @@
 // Distributed under the MIT software license, see the accompanying
 // file LICENCE or http://www.opensource.org/licenses/mit-license.php.
 
+using Autarkysoft.Bitcoin;
+using Autarkysoft.Bitcoin.Blockchain.Transactions;
 using Autarkysoft.Bitcoin.Encoders;
 using SharpPusher.MVVM;
 using SharpPusher.Services;
 using SharpPusher.Services.PushServices;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace SharpPusher.ViewModels
@@ -230,6 +233,20 @@ namespace SharpPusher.ViewModels
         }
 
 
+        [DependsOnProperty(nameof(SelectedNetwork))]
+        public bool IsCheckTxVisible => SelectedNetwork == Networks.Bitcoin || SelectedNetwork == Networks.BitcoinTestnet ||
+                                        SelectedNetwork == Networks.BitcoinCash || SelectedNetwork == Networks.BitcoinABC ||
+                                        SelectedNetwork == Networks.BitcoinSV || SelectedNetwork == Networks.Litecoin ||
+                                        SelectedNetwork == Networks.Dogecoin;
+
+        private bool _checkTx = true;
+        public bool CheckTx
+        {
+            get => _checkTx;
+            set => SetField(ref _checkTx, value);
+        }
+
+
         private bool _isSending;
         public bool IsSending
         {
@@ -248,14 +265,27 @@ namespace SharpPusher.ViewModels
         public BindableCommand BroadcastTxCommand { get; private set; }
         private async void BroadcastTx()
         {
-            if (!Base16.IsValid(RawTx))
+            Errors = string.Empty;
+
+            if (!Base16.TryDecode(RawTx, out byte[] result))
             {
                 Status = "Invalid hex.";
                 return;
             }
 
+            if (IsCheckTxVisible && CheckTx)
+            {
+                Debug.Assert(result != null);
+                var stream = new FastStreamReader(result);
+                var tx = new Transaction();
+                if (!tx.TryDeserialize(stream, out string error))
+                {
+                    Status = $"Invalid transaction. Error message: {error}";
+                    return;
+                }
+            }
+
             IsSending = true;
-            Errors = string.Empty;
             Status = "Broadcasting Transaction...";
 
             Response<string> resp = await SelectedApi.PushTx(RawTx);

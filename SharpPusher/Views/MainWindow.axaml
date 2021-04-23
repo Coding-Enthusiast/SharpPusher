@@ -39,7 +39,8 @@
 
       <CheckBox Content="Deserialize and check transaction" 
                 IsVisible="{Binding IsCheckTxVisible}"
-                IsChecked="{Binding CheckTx}" />
+                IsChecked="{Binding CheckTx}"
+                ToolTip.Tip="{Binding CheckTxToolTip}"/>
 
       <Button Content="Broadcast"
               Command="{Binding BroadcastTxCommand}"

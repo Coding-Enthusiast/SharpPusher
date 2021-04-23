@@ -246,6 +246,9 @@ namespace SharpPusher.ViewModels
             set => SetField(ref _checkTx, value);
         }
 
+        public static string CheckTxToolTip => "Enable to check the transaction hex using Bitcoin.Net library by deserializing " +
+            "and evaluating all its scripts.";
+
 
         private bool _isSending;
         public bool IsSending
@@ -282,6 +285,23 @@ namespace SharpPusher.ViewModels
                 {
                     Status = $"Invalid transaction. Error message: {error}";
                     return;
+                }
+
+                for (int i = 0; i < tx.TxInList.Length; i++)
+                {
+                    if (!tx.TxInList[i].SigScript.TryEvaluate(out _, out _, out error))
+                    {
+                        Status = $"Invalid input signature script at index {i}. Error message: {error}";
+                        return;
+                    }
+                }
+                for (int i = 0; i < tx.TxOutList.Length; i++)
+                {
+                    if (!tx.TxOutList[i].PubScript.TryEvaluate(out _, out _, out error))
+                    {
+                        Status = $"Invalid input pubkey script at index {i}. Error message: {error}";
+                        return;
+                    }
                 }
             }
 

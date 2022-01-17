@@ -4,6 +4,7 @@
 // file LICENCE or http://www.opensource.org/licenses/mit-license.php.
 
 using Autarkysoft.Bitcoin;
+using Autarkysoft.Bitcoin.Blockchain.Scripts;
 using Autarkysoft.Bitcoin.Blockchain.Transactions;
 using Autarkysoft.Bitcoin.Encoders;
 using SharpPusher.MVVM;
@@ -289,7 +290,7 @@ namespace SharpPusher.ViewModels
 
                 for (int i = 0; i < tx.TxInList.Length; i++)
                 {
-                    if (!tx.TxInList[i].SigScript.TryEvaluate(out _, out _, out error))
+                    if (!tx.TxInList[i].SigScript.TryEvaluate(ScriptEvalMode.Legacy, out _, out _, out error))
                     {
                         Status = $"Invalid input signature script at index {i}. Error message: {error}";
                         return;
@@ -297,7 +298,7 @@ namespace SharpPusher.ViewModels
                 }
                 for (int i = 0; i < tx.TxOutList.Length; i++)
                 {
-                    if (!tx.TxOutList[i].PubScript.TryEvaluate(out _, out _, out error))
+                    if (!tx.TxOutList[i].PubScript.TryEvaluate(ScriptEvalMode.Legacy, out _, out _, out error))
                     {
                         Status = $"Invalid input pubkey script at index {i}. Error message: {error}";
                         return;

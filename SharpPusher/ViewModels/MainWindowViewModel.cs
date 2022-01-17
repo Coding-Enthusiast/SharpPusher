@@ -98,6 +98,7 @@ namespace SharpPusher.ViewModels
                         new Blockchair(Blockchair.Chain.BTC),
                         new Smartbit(),
                         new BlockCypher(),
+                        new P2P(true)
                     };
                     break;
                 case Networks.BitcoinCash:
@@ -128,6 +129,7 @@ namespace SharpPusher.ViewModels
                     ApiList = new ObservableCollection<Api>()
                     {
                         new Blockchair(Blockchair.Chain.TBTC),
+                        new P2P(false)
                     };
                     break;
                 case Networks.BitcoinSV:

@@ -10,98 +10,27 @@ namespace SharpPusher.MVVM
 {
     public class BindableCommand : ICommand
     {
-        public BindableCommand(Action actionToExecute)
+        public BindableCommand(Action executeMethod) : this(executeMethod, null)
         {
-            methodToExecute = actionToExecute;
-        }
-        public BindableCommand(Action actionToExecute, Func<bool> canExecute)
-        {
-            methodToExecute = actionToExecute;
-            canExecuteMethod = canExecute ?? throw new ArgumentNullException(nameof(canExecute));
         }
 
-
-        private readonly Action methodToExecute;
-        private readonly Func<bool> canExecuteMethod;
-
-
-        public void RaiseCanExecuteChanged()
+        public BindableCommand(Action executeMethod, Func<bool>? canExecuteMethod)
         {
-            CanExecuteChanged(this, EventArgs.Empty);
+            ExecuteMethod = executeMethod;
+            CanExecuteMethod = canExecuteMethod;
         }
 
 
-        #region ICommand
+        private readonly Action ExecuteMethod;
+        private readonly Func<bool>? CanExecuteMethod;
 
-        public bool CanExecute(object parameter)
-        {
-            if (canExecuteMethod != null)
-            {
-                return canExecuteMethod();
-            }
-            return methodToExecute != null;
-        }
-
-        public event EventHandler CanExecuteChanged;
-
-        public void Execute(object parameter)
-        {
-            if (methodToExecute != null)
-            {
-                methodToExecute();
-            }
-        }
-
-        #endregion
-    }
+        public event EventHandler? CanExecuteChanged;
 
 
+        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 
+        public bool CanExecute(object? parameter) => CanExecuteMethod is null || CanExecuteMethod();
 
-    public class BindableCommand<T> : ICommand
-    {
-        public BindableCommand(Action<T> parameterizedAction)
-        {
-            methodToExecute = parameterizedAction;
-        }
-        public BindableCommand(Action<T> parameterizedAction, Func<T, bool> canExecute)
-        {
-            methodToExecute = parameterizedAction;
-            canExecuteMethod = canExecute;
-        }
-
-
-        private readonly Action<T> methodToExecute;
-        private readonly Func<T, bool> canExecuteMethod;
-
-
-        public void RaiseCanExecuteChanged()
-        {
-            CanExecuteChanged(this, EventArgs.Empty);
-        }
-
-
-        #region ICommand
-
-        public bool CanExecute(object parameter)
-        {
-            if (canExecuteMethod != null)
-            {
-                return canExecuteMethod((T)parameter);
-            }
-            return methodToExecute != null;
-        }
-
-        public event EventHandler CanExecuteChanged;
-
-        public void Execute(object parameter)
-        {
-            if (methodToExecute != null)
-            {
-                methodToExecute((T)parameter);
-            }
-        }
-
-        #endregion
+        public void Execute(object? parameter) => ExecuteMethod?.Invoke();
     }
 }

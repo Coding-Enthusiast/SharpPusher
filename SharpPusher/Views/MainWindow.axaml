@@ -3,11 +3,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:SharpPusher.ViewModels;assembly=SharpPusher"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650"
+        x:CompileBindings="True"
+        x:DataType="vm:MainWindowViewModel"
         x:Class="SharpPusher.Views.MainWindow"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650"
+        Height="650" Width="800"
         Icon="/Assets/PusherIcon.ico"
-        Height="650"
-        Width="800"
         FontSize="14"
         Title="SharpPusher">
 
@@ -25,11 +26,11 @@
              Grid.Column="0"/>
 
     <StackPanel Orientation="Vertical" Spacing="3" Margin="5" Grid.Column="1" Grid.Row="0">
-      <ListBox Items="{Binding NetworkList}"
+      <ListBox ItemsSource="{Binding NetworkList}"
                SelectedItem="{Binding SelectedNetwork}"
                Classes="RadioButtonListBox"/>
 
-      <ListBox Items="{Binding ApiList}"
+      <ListBox ItemsSource="{Binding ApiList}"
                SelectedItem="{Binding SelectedApi}">
         <ListBox.ItemTemplate>
           <DataTemplate>

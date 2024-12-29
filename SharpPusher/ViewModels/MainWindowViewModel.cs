@@ -284,9 +284,9 @@ namespace SharpPusher.ViewModels
                 Debug.Assert(result != null);
                 var stream = new FastStreamReader(result);
                 var tx = new Transaction();
-                if (!tx.TryDeserialize(stream, out string error))
+                if (!tx.TryDeserialize(stream, out Errors error))
                 {
-                    Status = $"Invalid transaction. Error message: {error}";
+                    Status = $"Invalid transaction. Error message: {error.Convert()}";
                     return;
                 }
 

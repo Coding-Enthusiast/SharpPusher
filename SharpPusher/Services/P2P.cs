@@ -57,7 +57,7 @@ namespace SharpPusher.Services
             };
             MinimalClient client = new(settings);
             client.Start();
-            await Task.Delay(TimeConstants.OneSecond_Milliseconds * 3);
+            await Task.Delay(TimeConstants.MilliSeconds.FiveSec);
             client.Send(msg);
 
             return new Response<string>()

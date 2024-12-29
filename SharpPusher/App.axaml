@@ -3,13 +3,8 @@
              xmlns:local="clr-namespace:SharpPusher;assembly=SharpPusher"
              x:Class="SharpPusher.App">
 
-  <Application.DataTemplates>
-    <local:ViewLocator/>
-  </Application.DataTemplates>
-
   <Application.Styles>
-    <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
-    <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>
+    <SimpleTheme/>
   </Application.Styles>
 
   <Application.Styles>

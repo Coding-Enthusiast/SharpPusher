@@ -1,4 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿// SharpPusher
+// Copyright (c) 2017 Coding Enthusiast
+// Distributed under the MIT software license, see the accompanying
+// file LICENCE or http://www.opensource.org/licenses/mit-license.php.
+
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;

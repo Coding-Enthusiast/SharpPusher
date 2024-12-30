@@ -35,25 +35,23 @@ namespace SharpPusher.Services
         /// <returns>Result of broadcasting.</returns>
         protected static async Task<Response<string>> PushTx(string txHex, string jKey, string url)
         {
-            Response<string> resp = new Response<string>();
+            Response<string> resp = new();
 
-            using (HttpClient client = new HttpClient())
+            using HttpClient client = new();
+            try
             {
-                try
+                JObject tx = new()
                 {
-                    JObject tx = new JObject() 
-                    {
-                        {jKey, txHex}
-                    };
+                    {jKey, txHex}
+                };
 
-                    HttpResponseMessage httpResp = await client.PostAsync(url, new StringContent(tx.ToString()));
-                    resp.Result = await httpResp.Content.ReadAsStringAsync();
-                }
-                catch (Exception ex)
-                {
-                    string errMsg = (ex.InnerException == null) ? ex.Message : ex.Message + " " + ex.InnerException;
-                    resp.Errors.Add(errMsg);
-                }
+                HttpResponseMessage httpResp = await client.PostAsync(url, new StringContent(tx.ToString()));
+                resp.Result = await httpResp.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+                string errMsg = (ex.InnerException == null) ? ex.Message : ex.Message + " " + ex.InnerException;
+                resp.Errors.Add(errMsg);
             }
 
             return resp;

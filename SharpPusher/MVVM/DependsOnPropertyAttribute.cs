@@ -11,19 +11,10 @@ namespace SharpPusher.MVVM
     public sealed class DependsOnPropertyAttribute : Attribute
     {
         /// <summary>
-        /// Instantiates an instance with only 1 depending properties.
+        /// Initializes a new instance of <see cref="DependsOnPropertyAttribute"/> using depending properties names.
         /// </summary>
-        /// <param name="dependingPropertyName">Name of the property to depend on.</param>
-        public DependsOnPropertyAttribute(string dependingPropertyName)
-        {
-            DependentProps = new string[] { dependingPropertyName };
-        }
-
-        /// <summary>
-        /// Instantiates an instance with an array of depending properties.
-        /// </summary>
-        /// <param name="dependingPropertyNames">Array of Names of the properties to depend on.</param>
-        public DependsOnPropertyAttribute(string[] dependingPropertyNames)
+        /// <param name="dependingPropertyNames">Names of the properties that the property with this attribute depends on.</param>
+        public DependsOnPropertyAttribute(params string[] dependingPropertyNames)
         {
             DependentProps = dependingPropertyNames;
         }

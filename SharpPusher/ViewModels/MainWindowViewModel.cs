@@ -30,14 +30,12 @@ namespace SharpPusher.ViewModels
 
             Version ver = Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0, 0, 0);
             VersionString = ver.ToString(3);
-
-            _rawTx = string.Empty;
         }
 
         public string VersionString { get; }
 
 
-        private string _rawTx;
+        private string _rawTx = string.Empty;
         public string RawTx
         {
             get => _rawTx;
@@ -79,7 +77,7 @@ namespace SharpPusher.ViewModels
         private Networks _selNet;
         public Networks SelectedNetwork
         {
-            get { return _selNet; }
+            get => _selNet;
             set
             {
                 if (SetField(ref _selNet, value))
@@ -93,122 +91,122 @@ namespace SharpPusher.ViewModels
             switch (SelectedNetwork)
             {
                 case Networks.Bitcoin:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.BTC),
                         new Smartbit(),
                         new BlockCypher(),
                         new P2P(true)
-                    };
+                    ];
                     break;
                 case Networks.BitcoinCash:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.BCH),
-                    };
+                    ];
                     break;
                 case Networks.Dogecoin:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.DOGE),
-                    };
+                    ];
                     break;
                 case Networks.Litecoin:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.LTC),
-                    };
+                    ];
                     break;
                 case Networks.Monero:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.XMR),
-                    };
+                    ];
                     break;
                 case Networks.BitcoinTestnet:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.TBTC),
                         new P2P(false)
-                    };
+                    ];
                     break;
                 case Networks.BitcoinSV:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.BSV),
-                    };
+                    ];
                     break;
                 case Networks.Zcash:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.ZEC),
-                    };
+                    ];
                     break;
                 case Networks.Ripple:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.XRP),
-                    };
+                    ];
                     break;
                 case Networks.Stellar:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.XLM),
-                    };
+                    ];
                     break;
                 case Networks.Cardano:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.ADA),
-                    };
+                    ];
                     break;
                 case Networks.Mixin:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.XIN),
-                    };
+                    ];
                     break;
                 case Networks.Tezos:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.XTZ),
-                    };
+                    ];
                     break;
                 case Networks.EOS:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.EOS),
-                    };
+                    ];
                     break;
                 case Networks.Ethereum:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.ETH),
-                    };
+                    ];
                     break;
                 case Networks.EthereumTestnet:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.ΤETH),
-                    };
+                    ];
                     break;
                 case Networks.Groestlcoin:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.GRS),
-                    };
+                    ];
                     break;
                 case Networks.Dash:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.DASH),
-                    };
+                    ];
                     break;
                 case Networks.BitcoinABC:
-                    ApiList = new ObservableCollection<Api>()
-                    {
+                    ApiList =
+                    [
                         new Blockchair(Blockchair.Chain.ABC),
-                    };
+                    ];
                     break;
             }
         }
@@ -282,8 +280,8 @@ namespace SharpPusher.ViewModels
             if (IsCheckTxVisible && CheckTx)
             {
                 Debug.Assert(result != null);
-                var stream = new FastStreamReader(result);
-                var tx = new Transaction();
+                FastStreamReader stream = new(result);
+                Transaction tx = new();
                 if (!tx.TryDeserialize(stream, out Errors error))
                 {
                     Status = $"Invalid transaction. Error message: {error.Convert()}";
@@ -325,14 +323,7 @@ namespace SharpPusher.ViewModels
         }
         private bool CanBroadcast()
         {
-            if (!string.IsNullOrWhiteSpace(RawTx) && !IsSending && SelectedApi != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return !string.IsNullOrWhiteSpace(RawTx) && !IsSending && SelectedApi != null;
         }
     }
 }

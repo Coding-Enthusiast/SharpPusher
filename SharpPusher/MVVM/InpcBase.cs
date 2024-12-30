@@ -10,29 +10,32 @@ using System.Runtime.CompilerServices;
 
 namespace SharpPusher.MVVM
 {
-    public class InpcBase : INotifyPropertyChanged
+    /// <summary>
+    /// Base (abstract) class implementing <see cref="INotifyPropertyChanged"/>. 
+    /// Could be used for both ViewModels and Models.
+    /// </summary>
+    public abstract class InpcBase : INotifyPropertyChanged
     {
         public InpcBase()
         {
             PropertyDependencyMap = new Dictionary<string, List<string>>();
 
-            foreach (var property in GetType().GetProperties())
+            foreach (PropertyInfo property in GetType().GetProperties())
             {
-                var attributes = property.GetCustomAttributes<DependsOnPropertyAttribute>();
-                foreach (var dependsAttr in attributes)
+                foreach (DependsOnPropertyAttribute dependsAttr in property.GetCustomAttributes<DependsOnPropertyAttribute>())
                 {
-                    if (dependsAttr == null)
+                    if (dependsAttr is not null)
                     {
-                        continue;
-                    }
-
-                    foreach (var dependence in dependsAttr.DependentProps)
-                    {
-                        if (!PropertyDependencyMap.ContainsKey(dependence))
+                        foreach (string dependence in dependsAttr.DependentProps)
                         {
-                            PropertyDependencyMap.Add(dependence, new List<string>());
+                            if (!PropertyDependencyMap.TryGetValue(dependence, out List<string>? value))
+                            {
+                                value = new List<string>();
+                                PropertyDependencyMap.Add(dependence, value);
+                            }
+
+                            value.Add(property.Name);
                         }
-                        PropertyDependencyMap[dependence].Add(property.Name);
                     }
                 }
             }
@@ -40,54 +43,51 @@ namespace SharpPusher.MVVM
 
 
 
-        /// <summary>
-        /// The PropertyChanged Event to raise to any UI object
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Dictonary of properties which have a dependant property.
-        /// </summary>
-        protected readonly Dictionary<string, List<string>> PropertyDependencyMap;
-
-
+        private readonly Dictionary<string, List<string>> PropertyDependencyMap;
 
         /// <summary>
         /// The PropertyChanged Event to raise to any UI object
+        /// </summary>
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+
+        /// <summary>
+        /// Raises the <see cref="PropertyChanged"/> event using the given property name.
         /// The event is only invoked if data binding is used
         /// </summary>
         /// <param name="propertyName">The Name of the property that is changing.</param>
         protected void RaisePropertyChanged(string propertyName)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
+            if (PropertyChanged is not null)
             {
-                // Raise the PropertyChanged event.
-                handler(this, new PropertyChangedEventArgs(propertyName));
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-                // Raise the PropertyChanged event for dependant properties too.
-                if (PropertyDependencyMap.ContainsKey(propertyName))
+                // Also raise the PropertyChanged event for dependant properties.
+                if (PropertyDependencyMap.TryGetValue(propertyName, out List<string>? value))
                 {
-                    foreach (var p in PropertyDependencyMap[propertyName])
+                    foreach (string p in value)
                     {
-                        handler(this, new PropertyChangedEventArgs(p));
+                        PropertyChanged.Invoke(this, new PropertyChangedEventArgs(p));
                     }
                 }
             }
         }
 
+
         /// <summary>
-        /// Sets the value of a property.
-        /// <para/> Returs false if value didn't change.
+        /// Sets the value of a property and raises the <see cref="PropertyChanged"/> event.
         /// </summary>
-        /// <typeparam name="T">Type of the field</typeparam>
-        /// <param name="field">Field to change value of</param>
-        /// <param name="value">New value to assign to the field</param>
-        /// <param name="propertyName">The Name of the property that is changing. If null it passes caller name in compile time.</param>
-        /// <returns>Returs false if value didn't change.</returns>
-        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
+        /// <typeparam name="T">Type of the property</typeparam>
+        /// <param name="field">Property's backing field to change</param>
+        /// <param name="value">New value to set the <paramref name="field"/> to</param>
+        /// <param name="propertyName">
+        /// [Default value = null]
+        /// The Name of the property that is changing. If it was null, the name is resolved at runtime automatically.
+        /// </param>
+        /// <returns>Retruns true if the value was changed, false if otherwise.</returns>
+        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
         {
-            if (EqualityComparer<T>.Default.Equals(field, value))
+            if (EqualityComparer<T>.Default.Equals(field, value) || propertyName is null)
             {
                 return false;
             }
@@ -98,6 +98,5 @@ namespace SharpPusher.MVVM
                 return true;
             }
         }
-
     }
 }

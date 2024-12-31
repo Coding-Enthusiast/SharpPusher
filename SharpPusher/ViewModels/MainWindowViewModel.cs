@@ -7,6 +7,7 @@ using Autarkysoft.Bitcoin;
 using Autarkysoft.Bitcoin.Blockchain.Scripts;
 using Autarkysoft.Bitcoin.Blockchain.Transactions;
 using Autarkysoft.Bitcoin.Encoders;
+using SharpPusher.Models;
 using SharpPusher.MVVM;
 using SharpPusher.Services;
 using SharpPusher.Services.PushServices;
@@ -49,29 +50,6 @@ namespace SharpPusher.ViewModels
         }
 
 
-        public enum Networks
-        {
-            Bitcoin,
-            BitcoinTestnet,
-            BitcoinCash,
-            BitcoinSV,
-            Dogecoin,
-            Litecoin,
-            Monero,
-            Zcash,
-            Ethereum,
-            EthereumTestnet,
-            Dash,
-            Ripple,
-            Groestlcoin,
-            Stellar,
-            Cardano,
-            Mixin,
-            Tezos,
-            EOS,
-            BitcoinABC
-        }
-
         public ObservableCollection<Networks> NetworkList { get; set; }
 
         private Networks _selNet;
@@ -94,7 +72,6 @@ namespace SharpPusher.ViewModels
                     ApiList =
                     [
                         new Blockchair(Blockchair.Chain.BTC),
-                        new Smartbit(),
                         new BlockCypher(),
                         new P2P(true)
                     ];

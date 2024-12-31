@@ -6,8 +6,8 @@
         x:CompileBindings="True"
         x:DataType="vm:MainWindowViewModel"
         x:Class="SharpPusher.Views.MainWindow"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="650"
-        Height="650" Width="800"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="620"
+        Height="620" Width="800"
         Icon="/Assets/PusherIcon.ico"
         FontSize="14"
         Title="SharpPusher">
@@ -17,15 +17,25 @@
   </Design.DataContext>
 
   <Grid ColumnDefinitions="2*,1*" RowDefinitions="1*,auto">
-    <TextBox Text="{Binding RawTx}"
-             TextWrapping="Wrap"
-             AcceptsReturn="True"
-             Watermark="Enter raw transaction hex here"
-             UseFloatingWatermark="False"
-             Margin="5"
-             Grid.Column="0"/>
+    <Grid RowDefinitions="*,*" Grid.Column="0" Grid.Row="0">
+      <TextBox Text="{Binding RawTx}"
+               TextWrapping="Wrap"
+               AcceptsReturn="False"
+               Watermark="Enter raw transaction hex here"
+               UseFloatingWatermark="False"
+               Margin="5"
+               Grid.Row="0"/>
+      
+      <TextBox Text="{Binding Message}"
+               IsReadOnly="True"
+               Background="Gainsboro"
+               Grid.Row="1"/>
+    </Grid>
 
-    <StackPanel Orientation="Vertical" Spacing="3" Margin="5" Grid.Column="1" Grid.Row="0">
+
+    <StackPanel Orientation="Vertical" Spacing="3" Margin="5"
+                Grid.Column="1" Grid.Row="0">
+
       <ListBox ItemsSource="{Binding NetworkList}"
                SelectedItem="{Binding SelectedNetwork}"
                Classes="RadioButtonListBox"/>
@@ -39,7 +49,7 @@
         </ListBox.ItemTemplate>
       </ListBox>
 
-      <CheckBox Content="Deserialize and check transaction" 
+      <CheckBox Content="Deserialize and check transaction"
                 IsVisible="{Binding IsCheckTxVisible}"
                 IsChecked="{Binding CheckTx}"
                 ToolTip.Tip="{Binding CheckTxToolTip}"/>
@@ -48,9 +58,6 @@
               Command="{Binding BroadcastTxCommand}"
               HorizontalAlignment="Stretch"
               HorizontalContentAlignment="Center"/>
-
-      <TextBlock Text="{Binding Errors}"
-                 TextWrapping="Wrap"/>
 
       <TextBlock Text="{Binding VersionString}"
                  TextAlignment="Center"
@@ -62,8 +69,8 @@
     </StackPanel>
 
 
-    <TextBlock Text="{Binding Status}"
-               Height="30"
+    <TextBlock Text="{Binding CurrentState}"
+               Height="25"
                Background="LightGray"
                Grid.ColumnSpan="2"
                Grid.Row="1"/>

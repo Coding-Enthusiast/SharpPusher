@@ -5,6 +5,7 @@
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SharpPusher.Models;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -14,52 +15,47 @@ namespace SharpPusher.Services.PushServices
 {
     public sealed class BlockchainInfo : Api
     {
-        public override string ApiName
-        {
-            get { return "Blockchain.Info"; }
-        }
+        public override string ApiName => "Blockchain.Info";
 
-        public async override Task<Response<string>> PushTx(string txHex)
+        public async override Task<Response> PushTx(string txHex)
         {
-            Response<string> resp = new Response<string>();
+            using HttpClient client = new();
+            Response resp = new();
 
-            using (HttpClient client = new HttpClient())
+            try
             {
-                try
+                client.BaseAddress = new Uri("https://blockchain.info");
+
+                string json = JsonConvert.SerializeObject(txHex);
+                string contentType = "application/x-www-form-urlencoded";
+                HttpContent httpContent = new MultipartFormDataContent
                 {
-                    client.BaseAddress = new Uri("https://blockchain.info");
+                    new StringContent(json, Encoding.UTF8, contentType)
+                };
 
-                    string json = JsonConvert.SerializeObject(txHex);
-                    string contentType = "application/x-www-form-urlencoded";
-                    HttpContent httpContent = new MultipartFormDataContent
+                HttpResponseMessage result = await client.PostAsync("pushtx", httpContent);
+                string sResult = await result.Content.ReadAsStringAsync();
+                if (result.IsSuccessStatusCode)
+                {
+                    if (sResult != null && sResult.StartsWith("{\"error\":"))
                     {
-                        new StringContent(json, Encoding.UTF8, contentType)
-                    };
-
-                    HttpResponseMessage result = await client.PostAsync("pushtx", httpContent);
-                    string sResult = await result.Content.ReadAsStringAsync();
-                    if (result.IsSuccessStatusCode)
-                    {
-                        if (sResult != null && sResult.StartsWith("{\"error\":"))
-                        {
-                            JObject jObject = JObject.Parse(sResult);
-                            resp.Errors.Add(jObject["error"].ToString());
-                        }
-                        else
-                        {
-                            resp.Result = sResult;
-                        }
+                        JObject jObject = JObject.Parse(sResult);
+                        resp.SetError(jObject["error"].ToString());
                     }
                     else
                     {
-                        resp.Errors.Add(sResult);
+                        resp.SetMessage(sResult);
                     }
                 }
-                catch (Exception ex)
+                else
                 {
-                    string errMsg = (ex.InnerException == null) ? ex.Message : ex.Message + " " + ex.InnerException;
-                    resp.Errors.Add(errMsg);
+                    resp.SetError(sResult);
                 }
+            }
+            catch (Exception ex)
+            {
+                string errMsg = (ex.InnerException == null) ? ex.Message : ex.Message + " " + ex.InnerException;
+                resp.SetError(errMsg);
             }
 
             return resp;

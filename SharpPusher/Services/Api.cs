@@ -4,6 +4,7 @@
 // file LICENCE or http://www.opensource.org/licenses/mit-license.php.
 
 using Newtonsoft.Json.Linq;
+using SharpPusher.Models;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace SharpPusher.Services
         /// </summary>
         /// <param name="txHex">Signed raw transaction in hex format</param>
         /// <returns>Result of broadcasting.</returns>
-        public abstract Task<Response<string>> PushTx(string txHex);
+        public abstract Task<Response> PushTx(string txHex);
 
 
         /// <summary>
@@ -33,9 +34,9 @@ namespace SharpPusher.Services
         /// <param name="jKey">The JSON key used for making the HttpContent in JSON format.</param>
         /// <param name="url">Api url to use.</param>
         /// <returns>Result of broadcasting.</returns>
-        protected static async Task<Response<string>> PushTx(string txHex, string jKey, string url)
+        protected static async Task<Response> PushTx(string txHex, string jKey, string url)
         {
-            Response<string> resp = new();
+            Response resp = new();
 
             using HttpClient client = new();
             try
@@ -46,12 +47,16 @@ namespace SharpPusher.Services
                 };
 
                 HttpResponseMessage httpResp = await client.PostAsync(url, new StringContent(tx.ToString()));
-                resp.Result = await httpResp.Content.ReadAsStringAsync();
+                if (!httpResp.IsSuccessStatusCode)
+                {
+                    resp.SetError("API response doesn't indicate success.");
+                }
+                resp.SetMessage(await httpResp.Content.ReadAsStringAsync());
             }
             catch (Exception ex)
             {
                 string errMsg = (ex.InnerException == null) ? ex.Message : ex.Message + " " + ex.InnerException;
-                resp.Errors.Add(errMsg);
+                resp.SetError(errMsg);
             }
 
             return resp;

@@ -4,34 +4,32 @@
 // file LICENCE or http://www.opensource.org/licenses/mit-license.php.
 
 using Newtonsoft.Json.Linq;
+using SharpPusher.Models;
 using System.Threading.Tasks;
 
 namespace SharpPusher.Services.PushServices
 {
     public sealed class BlockCypher : Api
     {
-        public override string ApiName
-        {
-            get { return "BlockCypher"; }
-        }
+        public override string ApiName => "BlockCypher";
 
 
-        public override async Task<Response<string>> PushTx(string txHex)
+        public override async Task<Response> PushTx(string txHex)
         {
-            Response<string> resp = await PushTx(txHex, "tx", "https://api.blockcypher.com/v1/bcy/test/txs/push");
-            if (resp.Errors.Any())
+            Response resp = await PushTx(txHex, "tx", "https://api.blockcypher.com/v1/bcy/test/txs/push");
+            if (!resp.IsSuccess)
             {
                 return resp;
             }
 
-            JObject jResult = JObject.Parse(resp.Result);
+            JObject jResult = JObject.Parse(resp.Message);
             if (jResult["error"] != null)
             {
-                resp.Errors.Add(jResult["error"].ToString());
+                resp.SetError(jResult["error"].ToString());
             }
             else
             {
-                resp.Result = "Successfully done. Tx ID: " + jResult["hash"].ToString();
+                resp.SetMessage($"Successfully done. Tx ID: {jResult["hash"]}");
             }
 
             return resp;

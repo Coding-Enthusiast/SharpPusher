@@ -18,7 +18,7 @@ using System.Reflection;
 
 namespace SharpPusher.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : InpcBase
     {
         public MainWindowViewModel()
         {
@@ -210,12 +210,29 @@ namespace SharpPusher.ViewModels
             }
         }
 
+        private string _msg = string.Empty;
+        public string Message
+        {
+            get => _msg;
+            set => SetField(ref _msg, value);
+        }
+
+        private State _state = State.Ready;
+        public State CurrentState
+        {
+            get => _state;
+            set => SetField(ref _state, value);
+        }
+
 
         [DependsOnProperty(nameof(SelectedNetwork))]
-        public bool IsCheckTxVisible => SelectedNetwork == Networks.Bitcoin || SelectedNetwork == Networks.BitcoinTestnet ||
-                                        SelectedNetwork == Networks.BitcoinCash || SelectedNetwork == Networks.BitcoinABC ||
-                                        SelectedNetwork == Networks.BitcoinSV || SelectedNetwork == Networks.Litecoin ||
-                                        SelectedNetwork == Networks.Dogecoin;
+        public bool IsCheckTxVisible => SelectedNetwork is Networks.Bitcoin
+                                                        or Networks.BitcoinTestnet
+                                                        or Networks.BitcoinCash
+                                                        or Networks.BitcoinABC
+                                                        or Networks.BitcoinSV
+                                                        or Networks.Litecoin
+                                                        or Networks.Dogecoin;
 
         private bool _checkTx = true;
         public bool CheckTx
@@ -225,7 +242,7 @@ namespace SharpPusher.ViewModels
         }
 
         public static string CheckTxToolTip => "Enable to check the transaction hex using Bitcoin.Net library by deserializing " +
-            "and evaluating all its scripts.";
+                                               "and evaluating all its scripts.";
 
 
         private bool _isSending;
@@ -246,11 +263,12 @@ namespace SharpPusher.ViewModels
         public BindableCommand BroadcastTxCommand { get; private set; }
         private async void BroadcastTx()
         {
-            Errors = string.Empty;
+            Message = string.Empty;
+            CurrentState = State.Ready;
 
             if (!Base16.TryDecode(RawTx, out byte[] result))
             {
-                Status = "Invalid hex.";
+                Message = "Invalid hex.";
                 return;
             }
 
@@ -261,7 +279,7 @@ namespace SharpPusher.ViewModels
                 Transaction tx = new();
                 if (!tx.TryDeserialize(stream, out Errors error))
                 {
-                    Status = $"Invalid transaction. Error message: {error.Convert()}";
+                    Message = $"Could not deserialize transaction. Error message:{Environment.NewLine}{error.Convert()}";
                     return;
                 }
 
@@ -269,7 +287,8 @@ namespace SharpPusher.ViewModels
                 {
                     if (!tx.TxInList[i].SigScript.TryEvaluate(ScriptEvalMode.Legacy, out _, out _, out error))
                     {
-                        Status = $"Invalid input signature script at index {i}. Error message: {error}";
+                        Message = $"Could not evaluate {(i + 1).ToOrdinal()} input's signature script. " +
+                                  $"Error message:{Environment.NewLine}{error}";
                         return;
                     }
                 }
@@ -277,25 +296,20 @@ namespace SharpPusher.ViewModels
                 {
                     if (!tx.TxOutList[i].PubScript.TryEvaluate(ScriptEvalMode.Legacy, out _, out _, out error))
                     {
-                        Status = $"Invalid input pubkey script at index {i}. Error message: {error}";
+                        Message = $"Could not evaluate {(i + 1).ToOrdinal()} output's pubkey script. " +
+                                  $"Error message: {error}";
                         return;
                     }
                 }
             }
 
             IsSending = true;
-            Status = "Broadcasting Transaction...";
+            CurrentState = State.Broadcasting;
 
-            Response<string> resp = await SelectedApi.PushTx(RawTx);
-            if (resp.Errors.Any())
-            {
-                Errors = resp.Errors.GetErrors();
-                Status = "Finished with error.";
-            }
-            else
-            {
-                Status = resp.Result;
-            }
+            Response resp = await SelectedApi.PushTx(RawTx);
+            Message = resp.Message;
+            CurrentState = resp.IsSuccess ? State.Success : State.Failed;
+
             IsSending = false;
         }
         private bool CanBroadcast()

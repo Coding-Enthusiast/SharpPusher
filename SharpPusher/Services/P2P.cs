@@ -8,6 +8,7 @@ using Autarkysoft.Bitcoin.Blockchain.Transactions;
 using Autarkysoft.Bitcoin.Clients;
 using Autarkysoft.Bitcoin.P2PNetwork.Messages;
 using Autarkysoft.Bitcoin.P2PNetwork.Messages.MessagePayloads;
+using SharpPusher.Models;
 using System.Threading.Tasks;
 
 namespace SharpPusher.Services
@@ -46,8 +47,10 @@ namespace SharpPusher.Services
 
         public override string ApiName => "P2P";
 
-        public override async Task<Response<string>> PushTx(string txHex)
+        public override async Task<Response> PushTx(string txHex)
         {
+            Response resp = new();
+
             Transaction tx = new(txHex);
             Message msg = new(new TxPayload(tx), netType);
 
@@ -55,16 +58,13 @@ namespace SharpPusher.Services
             {
                 DnsSeeds = netType == NetworkType.MainNet ? DnsMain : DnsTest
             };
-            MinimalClient client = new(settings);
+            using MinimalClient client = new(settings);
             client.Start();
             await Task.Delay(TimeConstants.MilliSeconds.FiveSec);
             client.Send(msg);
 
-            return new Response<string>()
-            {
-                Result = $"Transaction was sent to {settings.MaxConnectionCount} nodes. " +
-                         $"Transaction ID: {tx.GetTransactionId()}"
-            };
+            resp.SetMessage($"Transaction was sent to {settings.MaxConnectionCount} nodes. Transaction ID: {tx.GetTransactionId()}");
+            return resp;
         }
     }
 }

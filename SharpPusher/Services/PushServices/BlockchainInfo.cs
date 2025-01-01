@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace SharpPusher.Services.PushServices
 {
-    public sealed class BlockchainInfo : Api
+    public sealed class BlockchainInfo : IApi
     {
-        public override string ApiName => "Blockchain.Info";
+        public string ApiName => "Blockchain.Info";
 
-        public async override Task<Response> PushTx(string txHex)
+        public async Task<Response> PushTx(string txHex)
         {
             using HttpClient client = new();
             Response resp = new();
@@ -40,11 +40,11 @@ namespace SharpPusher.Services.PushServices
                     if (sResult != null && sResult.StartsWith("{\"error\":"))
                     {
                         JObject jObject = JObject.Parse(sResult);
-                        resp.SetError(jObject["error"].ToString());
+                        resp.SetError(jObject["error"]?.ToString() ?? "");
                     }
                     else
                     {
-                        resp.SetMessage(sResult);
+                        resp.SetMessage(sResult ?? "");
                     }
                 }
                 else

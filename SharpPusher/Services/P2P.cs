@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SharpPusher.Services
 {
-    public class P2P : Api
+    public class P2P : IApi
     {
         public P2P(bool isMainNet)
         {
@@ -45,9 +45,9 @@ namespace SharpPusher.Services
         };
 
 
-        public override string ApiName => "P2P";
+        public string ApiName => "P2P";
 
-        public override async Task<Response> PushTx(string txHex)
+        public async Task<Response> PushTx(string txHex)
         {
             Response resp = new();
 

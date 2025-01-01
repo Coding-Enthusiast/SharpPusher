@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SharpPusher.Services.PushServices
 {
-    public sealed class Blockchair : Api
+    public sealed class Blockchair : IApi
     {
         public Blockchair(Chain chain)
         {
@@ -45,9 +45,9 @@ namespace SharpPusher.Services.PushServices
 
         private readonly Chain chain;
 
-        public override string ApiName => "Blockchair";
+        public string ApiName => "Blockchair";
 
-        public override async Task<Response> PushTx(string txHex)
+        public async Task<Response> PushTx(string txHex)
         {
             using HttpClient client = new();
             Response resp = new();
@@ -83,7 +83,7 @@ namespace SharpPusher.Services.PushServices
 
                 var content = new FormUrlEncodedContent(
                 [
-                        new KeyValuePair<string, string>("data", txHex)
+                    new KeyValuePair<string, string>("data", txHex)
                 ]);
 
                 HttpResponseMessage httpResp = await client.PostAsync(url, content);

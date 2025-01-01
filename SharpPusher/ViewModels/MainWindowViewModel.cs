@@ -189,16 +189,16 @@ namespace SharpPusher.ViewModels
         }
 
 
-        private ObservableCollection<Api> _apiList = new();
-        public ObservableCollection<Api> ApiList
+        private ObservableCollection<IApi> _apiList = new();
+        public ObservableCollection<IApi> ApiList
         {
             get => _apiList;
             set => SetField(ref _apiList, value);
         }
 
 
-        private Api _selApi;
-        public Api SelectedApi
+        private IApi _selApi;
+        public IApi SelectedApi
         {
             get => _selApi;
             set

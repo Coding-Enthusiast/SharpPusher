@@ -5,31 +5,52 @@
 
 using Newtonsoft.Json.Linq;
 using SharpPusher.Models;
+using System.Net.Http;
+using System;
 using System.Threading.Tasks;
 
 namespace SharpPusher.Services.PushServices
 {
-    public sealed class BlockCypher : Api
+    public sealed class BlockCypher : IApi
     {
-        public override string ApiName => "BlockCypher";
+        public string ApiName => "BlockCypher";
 
 
-        public override async Task<Response> PushTx(string txHex)
+        public async Task<Response> PushTx(string txHex)
         {
-            Response resp = await PushTx(txHex, "tx", "https://api.blockcypher.com/v1/bcy/test/txs/push");
-            if (!resp.IsSuccess)
-            {
-                return resp;
-            }
+            Response resp = new();
+            using HttpClient client = new();
 
-            JObject jResult = JObject.Parse(resp.Message);
-            if (jResult["error"] != null)
+            try
             {
-                resp.SetError(jResult["error"].ToString());
+                JObject tx = new()
+                {
+                    {"tx", txHex}
+                };
+
+                string url = "https://api.blockcypher.com/v1/bcy/test/txs/push";
+                HttpResponseMessage httpResp = await client.PostAsync(url, new StringContent(tx.ToString()));
+                if (!httpResp.IsSuccessStatusCode)
+                {
+                    resp.SetError("API response doesn't indicate success.");
+                    return resp;
+                }
+
+                string t = await httpResp.Content.ReadAsStringAsync();
+                JObject jResult = JObject.Parse(t);
+                if (jResult["error"] != null)
+                {
+                    resp.SetError(jResult["error"]?.ToString() ?? "");
+                }
+                else
+                {
+                    resp.SetMessage($"Successfully done. Tx ID: {jResult["hash"]}");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                resp.SetMessage($"Successfully done. Tx ID: {jResult["hash"]}");
+                string errMsg = (ex.InnerException == null) ? ex.Message : ex.Message + " " + ex.InnerException;
+                resp.SetError(errMsg);
             }
 
             return resp;

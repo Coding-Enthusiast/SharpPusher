@@ -1,37 +1,36 @@
-![Logo](https://i.imgur.com/QIFJIvc.png)
+[![.NET-CI](https://github.com/Coding-Enthusiast/SharpPusher/actions/workflows/dotnetCI.yml/badge.svg)](https://github.com/Coding-Enthusiast/SharpPusher/actions/workflows/dotnetCI.yml)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Coding-Enthusiast/SharpPusher/blob/master/License)
+[![Target](https://img.shields.io/badge/dynamic/xml?color=%23512bd4&label=target&query=%2F%2FTargetFramework%5B1%5D&url=https%3A%2F%2Fraw.githubusercontent.com%2FCoding-Enthusiast%2FSharpPusher%2Fmaster%2FSharpPusher%2FSharpPusher.csproj&logo=.net)](https://github.com/Coding-Enthusiast/SharpPusher/blob/master/Src/SharpPusher/SharpPusher.csproj)
+[![Downloads](https://img.shields.io/github/downloads/Coding-Enthusiast/SharpPusher/total)](https://github.com/Coding-Enthusiast/SharpPusher/releases)
+
+<p align="center">
+    <img src="https://i.imgur.com/QIFJIvc.png" width=150 alt="logo"/>
+</p>
+
 # SharpPusher
-A simple GUI to broadcast bitcoin and bitcoin cash transactions to the network.
+A simple GUI to broadcast bitcoin and various altcoin transactions to the network.
 
-**Packages needed:** Newtonsoft.Json
-
-![ScreenShot](https://i.imgur.com/Ho7YmBL.png)
+![Preview](/Doc/Images/MainPreview.jpg)
 
 
-## Features
-
-1. Pushing bitcoin raw transaction through following services:
-* https://www.smartbit.com.au
+Following block explorer API services are used to push bitcoin raw transactions to the network
 * https://blockcypher.com
 * https://blockchair.com
-2. Pushing bitcoin cash raw transaction through following services:
-* http://blockdozer.com
+* https://blockchain.com  
 
-## To Do List
+Blockchair API is used for altcoin transactions.  
 
-- [ ] Add ability to push transactions to network directly through nodes not third parties.
-- [ ] Add unit test!
-- [ ] Add other altcoin networks. ~~BCH(BCC), LTC, Doge~~
+SharpPusher also supports directly connecting to the Bitcoin P2P network (random full nodes) and pushing
+the transaction to the network in a more decentralized way.
 
 ## Announcement Link
-Topic on bitcointalk.org
+Bitcointalk topic https://bitcointalk.org/index.php?topic=1944501.0
 
-https://bitcointalk.org/index.php?topic=1944501.0
+Contributions are welcome.
 
-### Don't forget to leave your feedback, Thank you.
-**Wanna help?** 
 
-Then review the code and leave your feedback.
+## Donations
 
-[Donate: 1Q9swRQuwhTtjZZ2yguFWk7m7pszknkWyk](bitcoin:1Q9swRQuwhTtjZZ2yguFWk7m7pszknkWyk)
-
-![QR](https://btc.blockr.io/api/v1/address/Qr/1Q9swRQuwhTtjZZ2yguFWk7m7pszknkWyk)
+If You found this tool helpful consider making a donation:  
+Legacy address: 1Q9swRQuwhTtjZZ2yguFWk7m7pszknkWyk  
+SegWit address: bc1q3n5t9gv40ayq68nwf0yth49dt5c799wpld376s

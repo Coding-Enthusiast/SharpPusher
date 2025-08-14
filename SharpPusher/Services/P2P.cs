@@ -17,7 +17,7 @@ namespace SharpPusher.Services
     {
         public P2P(bool isMainNet)
         {
-            netType = isMainNet ? NetworkType.MainNet : NetworkType.TestNet;
+            netType = isMainNet ? NetworkType.MainNet : NetworkType.TestNet3;
         }
 
 

@@ -71,6 +71,7 @@ namespace SharpPusher.ViewModels
                 case Networks.Bitcoin:
                     ApiList =
                     [
+                        new MempoolSpace(),
                         new Blockchair(Blockchair.Chain.BTC),
                         new BlockCypher(),
                         new P2P(true)

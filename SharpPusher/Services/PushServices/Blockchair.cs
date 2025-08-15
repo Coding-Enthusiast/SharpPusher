@@ -40,7 +40,6 @@ namespace SharpPusher.Services.PushServices
             XLM,
             GRS,
             DASH,
-            ABC
         }
 
         private readonly Chain chain;
@@ -64,16 +63,13 @@ namespace SharpPusher.Services.PushServices
                     Chain.XMR => "monero",
                     Chain.ADA => "cardano",
                     Chain.BSV => "bitcoin-sv",
-                    Chain.EOS => "eos",
                     Chain.ETH => "ethereum",
                     Chain.ΤETH => "ethereum/testnet",
                     Chain.XIN => "mixin",
                     Chain.XLM => "stellar",
                     Chain.XRP => "ripple",
-                    Chain.XTZ => "tezos",
                     Chain.DASH => "dash",
                     Chain.GRS => "groestlcoin",
-                    Chain.ABC => "bitcoin-abc",
                     Chain.ZEC => "zcash",
                     _ => throw new ArgumentException("Undefined Chain")
                 };

@@ -144,18 +144,6 @@ namespace SharpPusher.ViewModels
                         new Blockchair(Blockchair.Chain.XIN),
                     ];
                     break;
-                case Networks.Tezos:
-                    ApiList =
-                    [
-                        new Blockchair(Blockchair.Chain.XTZ),
-                    ];
-                    break;
-                case Networks.EOS:
-                    ApiList =
-                    [
-                        new Blockchair(Blockchair.Chain.EOS),
-                    ];
-                    break;
                 case Networks.Ethereum:
                     ApiList =
                     [
@@ -178,12 +166,6 @@ namespace SharpPusher.ViewModels
                     ApiList =
                     [
                         new Blockchair(Blockchair.Chain.DASH),
-                    ];
-                    break;
-                case Networks.BitcoinABC:
-                    ApiList =
-                    [
-                        new Blockchair(Blockchair.Chain.ABC),
                     ];
                     break;
             }
@@ -230,7 +212,6 @@ namespace SharpPusher.ViewModels
         public bool IsCheckTxVisible => SelectedNetwork is Networks.Bitcoin
                                                         or Networks.BitcoinTestnet
                                                         or Networks.BitcoinCash
-                                                        or Networks.BitcoinABC
                                                         or Networks.BitcoinSV
                                                         or Networks.Litecoin
                                                         or Networks.Dogecoin;

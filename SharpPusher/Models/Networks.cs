@@ -23,8 +23,5 @@ namespace SharpPusher.Models
         Stellar,
         Cardano,
         Mixin,
-        Tezos,
-        EOS,
-        BitcoinABC
     }
 }
